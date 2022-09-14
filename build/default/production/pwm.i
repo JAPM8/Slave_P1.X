@@ -1,4 +1,4 @@
-# 1 "main_slave_p1.c"
+# 1 "pwm.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,23 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "main_slave_p1.c" 2
-# 16 "main_slave_p1.c"
-#pragma config FOSC = INTRC_NOCLKOUT
-#pragma config WDTE = OFF
-#pragma config PWRTE = OFF
-#pragma config MCLRE = OFF
-#pragma config CP = OFF
-#pragma config CPD = OFF
-#pragma config BOREN = OFF
-#pragma config IESO = OFF
-#pragma config FCMEN = OFF
-#pragma config LVP = OFF
-
-
-#pragma config BOR4V = BOR21V
-#pragma config WRT = OFF
-
+# 1 "pwm.c" 2
 
 
 
@@ -2647,42 +2631,7 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
-# 37 "main_slave_p1.c" 2
-
-
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 39 "main_slave_p1.c" 2
-
-# 1 "./osc.h" 1
-# 14 "./osc.h"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 14 "./osc.h" 2
-
-
-void int_osc_MHz(uint8_t freq);
-# 40 "main_slave_p1.c" 2
-
-# 1 "./USART.h" 1
-# 12 "./USART.h"
-void USART_set(const unsigned long int baudrate);
-void USART_send(const char data);
-void USART_print(const char *string);
-char USART_read(void);
-# 41 "main_slave_p1.c" 2
-
-# 1 "./adc.h" 1
-# 14 "./adc.h"
-void adc_init(uint8_t adc_cs, uint8_t vref_plus, uint8_t vref_minus);
-# 32 "./adc.h"
-void adc_start(uint8_t channel);
-# 53 "./adc.h"
-uint16_t adc_read(void);
-
-
-
-
-void adc_ch_switch(uint8_t channels);
-# 42 "main_slave_p1.c" 2
+# 8 "pwm.c" 2
 
 # 1 "./pwm.h" 1
 # 14 "./pwm.h"
@@ -2699,82 +2648,44 @@ void pwm_init (uint8_t channel);
 
 
 void pwm_duty_cycle (uint16_t duty_cycle);
-# 43 "main_slave_p1.c" 2
-# 53 "main_slave_p1.c"
-uint16_t switch_servo = 0;
+# 9 "pwm.c" 2
+
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
+# 10 "pwm.c" 2
 
 
-
-void setup(void);
-void servo(unsigned short mov);
-
-
-
-void __attribute__((picinterrupt(("")))) slave(void){
-    if(INTCONbits.RBIF){
-        if(!PORTBbits.RB1){
-            switch_servo = 1;
-        }
-        else{
-            switch_servo = 0;
-        }
-        INTCONbits.RBIF = 0;
+void pwm_init (uint8_t channel) {
+    switch(channel) {
+        case 1:
+            TRISCbits.TRISC2 = 1;
+            CCP1CON = 0;
+            CCP1CONbits.P1M = 0;
+            CCP1CONbits.CCP1M = 0b1100;
+            break;
+        case 2:
+            TRISCbits.TRISC1 = 1;
+            CCP2CON = 0;
+            CCP2CONbits.CCP2M = 0b1100;
+            break;
+        default:
+            break;
     }
-    return;
+    T2CONbits.T2CKPS = 0b11;
+    PR2 = 255;
+
+
+    PIR1bits.TMR2IF = 0;
+    T2CONbits.TMR2ON = 1;
+    while(!PIR1bits.TMR2IF);
+    PIR1bits.TMR2IF = 0;
+    TRISCbits.TRISC2 = 0;
+
 }
 
+void pwm_duty_cycle (uint16_t duty_cycle){
+    CCPR1L = (uint8_t)(duty_cycle>>2);
+    CCP1CONbits.DC1B = duty_cycle & 0b11;
 
 
 
-
-void main(void) {
-    setup();
-    while(1){
-
-        servo(switch_servo);
-    }
-    return;
-}
-
-
-
-
-void servo(unsigned short mov){
-    if (mov == 1){
-        pwm_duty_cycle(94);
-    }
-    else{
-        pwm_duty_cycle(31);
-    }
-}
-
-
-
-
-void setup(void){
-    int_osc_MHz(1);
-
-
-    ANSEL = 0x01;
-    ANSELH = 0;
-
-    TRISAbits.TRISA0 = 1;
-
-    TRISBbits.TRISB0 = 0;
-    PORTBbits.RB0 = 0;
-    TRISBbits.TRISB1 = 1;
-    OPTION_REGbits.nRBPU = 0;
-    WPUBbits.WPUB = 2;
-
-    USART_set(9600);
-    pwm_init(1);
-
-
-    INTCONbits.GIE = 1;
-    INTCONbits.PEIE = 1;
-    INTCONbits.RBIE = 1;
-    IOCBbits.IOCB1 = 1;
-    INTCONbits.RBIF = 0;
-
-    return;
 }

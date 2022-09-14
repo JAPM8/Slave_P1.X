@@ -12,20 +12,26 @@
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
 $dist/default/production\Slave_P1.X.production.o
-cinit CODE 0 7FC 7FC 4 2 1
+cinit CODE 0 F F 8 2 1
 idloc IDLOC 5 2000 2000 4 2 1
-text1 CODE 0 6C9 6C9 20 2 1
-text2 CODE 0 6E9 6E9 3B 2 1
-text3 CODE 0 78A 78A 72 2 1
-text4 CODE 0 724 724 66 2 1
-text5 CODE 0 6A3 6A3 C 2 1
-maintext CODE 0 6AF 6AF 1A 2 1
-cstackCOMMON COMMON 1 70 70 E 1 1
-cstackBANK0 BANK0 1 20 20 12 1 1
+text1 CODE 0 16B 16B 35 2 1
+text2 CODE 0 F1 F1 3F 2 1
+text3 CODE 0 130 130 3B 2 1
+text4 CODE 0 17 17 72 2 1
+text5 CODE 0 89 89 68 2 1
+text6 CODE 0 1A0 1A0 1A 2 1
+text7 CODE 0 1D3 1D3 18 2 1
+text8 CODE 0 1BA 1BA 19 2 1
+maintext CODE 0 1EB 1EB 14 2 1
+cstackCOMMON COMMON 1 70 70 B 1 1
+cstackBANK0 BANK0 1 20 20 15 1 1
+intentry CODE 0 4 4 8 2 1
+bssBANK0 BANK0 1 35 35 2 1 1
 config CONFIG 4 2007 2007 2 2 1
-$C:\Users\javyp\AppData\Local\Temp\xcAs974.o
+$C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
 idloc IDLOC 5 2000 2000 4 2 1
-end_init CODE 0 0 0 3 2 1
+reset_vec CODE 0 0 0 3 2 1
+end_init CODE 0 C C 3 2 1
 config CONFIG 4 2007 2007 2 2 1
 # %UNUSED Section
 # This section enumerates the unused ranges of each CLASS. Each entry
@@ -33,29 +39,30 @@ config CONFIG 4 2007 2007 2 2 1
 #    <class name> <range> <delta>
 # Addresses given in the range are in hexadecimal and units of delta.
 %UNUSED
-RAM 32-6F 1
+RAM 37-6F 1
 RAM A0-EF 1
 RAM 110-16F 1
 RAM 190-1EF 1
-BANK0 32-6F 1
+BANK0 37-6F 1
 BANK1 A0-EF 1
 BANK2 110-16F 1
 BANK3 190-1EF 1
-CONST 3-6A2 2
-CONST 800-1FFF 2
-ENTRY 3-6A2 2
-ENTRY 800-1FFF 2
-CODE 3-6A2 2
-CODE 800-1FFF 2
+CONST 3-3 2
+CONST 1FF-1FFF 2
+ENTRY 3-3 2
+ENTRY 1FF-1FFF 2
+CODE 3-3 2
+CODE 1FF-1FFF 2
 SFR0 0-1F 1
 SFR1 80-9F 1
 SFR2 100-10F 1
 SFR3 180-18F 1
+COMMON 7B-7D 1
 EEDATA 2100-21FF 2
-STRCODE 3-6A2 2
-STRCODE 800-1FFF 2
-STRING 3-6A2 2
-STRING 800-1FFF 2
+STRCODE 3-3 2
+STRCODE 1FF-1FFF 2
+STRING 3-3 2
+STRING 1FF-1FFF 2
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
 # The beginning of the section is indicated by %LINETAB.
@@ -70,97 +77,150 @@ STRING 800-1FFF 2
 # All other numeric values are in decimal.
 %LINETAB
 $dist/default/production\Slave_P1.X.production.o
-7FC cinit CODE >769:C:\Users\javyp\AppData\Local\Temp\xcAs974.s
-7FC cinit CODE >772:C:\Users\javyp\AppData\Local\Temp\xcAs974.s
-7FC cinit CODE >778:C:\Users\javyp\AppData\Local\Temp\xcAs974.s
-7FC cinit CODE >780:C:\Users\javyp\AppData\Local\Temp\xcAs974.s
-7FD cinit CODE >781:C:\Users\javyp\AppData\Local\Temp\xcAs974.s
-6A3 text5 CODE >32:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-6A4 text5 CODE >34:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-6AA text5 CODE >35:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-6AE text5 CODE >36:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-724 text4 CODE >5:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-724 text4 CODE >13:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-72C text4 CODE >14:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-730 text4 CODE >14:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-734 text4 CODE >15:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-736 text4 CODE >16:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-737 text4 CODE >17:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-739 text4 CODE >17:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-740 text4 CODE >18:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-744 text4 CODE >16:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-748 text4 CODE >21:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-74A text4 CODE >21:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-751 text4 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-753 text4 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-757 text4 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-75B text4 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-75F text4 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-763 text4 CODE >23:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-766 text4 CODE >23:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-76A text4 CODE >23:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-76E text4 CODE >23:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-771 text4 CODE >24:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-772 text4 CODE >26:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-773 text4 CODE >26:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-779 text4 CODE >26:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-77B text4 CODE >27:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-781 text4 CODE >29:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-789 text4 CODE >30:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
-78A text3 CODE >12:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-78A text3 CODE >15:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-78D text3 CODE >16:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-790 text3 CODE >17:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-793 text3 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-79E text3 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7A4 text3 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7B7 text3 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7BD text3 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7CA text3 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7D0 text3 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7D6 text3 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7EC text3 CODE >19:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7ED text3 CODE >20:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7F0 text3 CODE >23:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7F1 text3 CODE >24:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7F4 text3 CODE >26:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7F5 text3 CODE >27:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7F8 text3 CODE >29:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-7FB text3 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
-6E9 text2 CODE >13:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-6EA text2 CODE >14:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-6EB text2 CODE >16:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-6F1 text2 CODE >17:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-6F2 text2 CODE >19:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-6F8 text2 CODE >20:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-6F9 text2 CODE >22:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-6FF text2 CODE >23:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-700 text2 CODE >25:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-704 text2 CODE >26:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-705 text2 CODE >28:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-70B text2 CODE >29:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-70C text2 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-711 text2 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-716 text2 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-719 text2 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-71C text2 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-71F text2 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-722 text2 CODE >31:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-723 text2 CODE >32:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
-6C9 text1 CODE >81:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6C9 text1 CODE >82:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6CF text1 CODE >85:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6D2 text1 CODE >86:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6D3 text1 CODE >88:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6D6 text1 CODE >89:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6D9 text1 CODE >91:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6E6 text1 CODE >94:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6E7 text1 CODE >95:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6E8 text1 CODE >97:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6AF maintext CODE >69:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6AF maintext CODE >70:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6B4 maintext CODE >72:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
-6BA maintext CODE >73:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+F cinit CODE >1121:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+F cinit CODE >1124:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+F cinit CODE >1135:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+10 cinit CODE >1136:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+11 cinit CODE >1137:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+12 cinit CODE >1138:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+13 cinit CODE >1144:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+13 cinit CODE >1146:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+14 cinit CODE >1147:C:\Users\javyp\AppData\Local\Temp\xcAsg9o.s
+4 intentry CODE >62:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1BA text8 CODE >62:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1BA text8 CODE >63:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1BE text8 CODE >64:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1C4 text8 CODE >65:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1C8 text8 CODE >66:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1C9 text8 CODE >68:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1CB text8 CODE >70:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1CC text8 CODE >73:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1D3 text7 CODE >40:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+1D3 text7 CODE >41:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+1D7 text7 CODE >41:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+1DA text7 CODE >41:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+1E1 text7 CODE >42:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+1EA text7 CODE >46:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+1A0 text6 CODE >91:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1A0 text6 CODE >92:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1A6 text6 CODE >93:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1AF text6 CODE >94:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1B0 text6 CODE >96:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1B9 text6 CODE >98:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+89 text5 CODE >5:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+89 text5 CODE >13:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+93 text5 CODE >14:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+97 text5 CODE >14:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+9B text5 CODE >15:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+9D text5 CODE >16:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+9E text5 CODE >17:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+A0 text5 CODE >17:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+A7 text5 CODE >18:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+AB text5 CODE >16:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+AF text5 CODE >21:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+B1 text5 CODE >21:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+B8 text5 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+BA text5 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+BE text5 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+C2 text5 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+C6 text5 CODE >22:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+CA text5 CODE >23:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+CD text5 CODE >23:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+D1 text5 CODE >23:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+D5 text5 CODE >23:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+D8 text5 CODE >24:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+D9 text5 CODE >26:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+DA text5 CODE >26:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+E0 text5 CODE >26:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+E2 text5 CODE >27:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+E8 text5 CODE >29:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+F0 text5 CODE >30:C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\__lldiv.c
+17 text4 CODE >12:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+17 text4 CODE >15:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+1A text4 CODE >16:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+1D text4 CODE >17:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+20 text4 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+2B text4 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+31 text4 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+44 text4 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+4A text4 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+57 text4 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+5D text4 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+63 text4 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+79 text4 CODE >19:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+7A text4 CODE >20:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+7D text4 CODE >23:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+7E text4 CODE >24:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+81 text4 CODE >26:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+82 text4 CODE >27:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+85 text4 CODE >29:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+88 text4 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\USART.c
+130 text3 CODE >13:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+131 text3 CODE >14:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+132 text3 CODE >16:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+138 text3 CODE >17:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+139 text3 CODE >19:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+13F text3 CODE >20:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+140 text3 CODE >22:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+146 text3 CODE >23:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+147 text3 CODE >25:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+14B text3 CODE >26:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+14C text3 CODE >28:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+152 text3 CODE >29:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+153 text3 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+158 text3 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+15D text3 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+160 text3 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+163 text3 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+166 text3 CODE >30:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+169 text3 CODE >31:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+16A text3 CODE >32:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\osc.c
+F1 text2 CODE >12:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+F2 text2 CODE >13:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+F3 text2 CODE >14:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+F3 text2 CODE >15:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+F6 text2 CODE >16:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+F9 text2 CODE >17:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+FB text2 CODE >18:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+FF text2 CODE >19:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+100 text2 CODE >20:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+100 text2 CODE >21:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+103 text2 CODE >22:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+106 text2 CODE >23:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+10A text2 CODE >24:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+10B text2 CODE >27:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+110 text2 CODE >27:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+115 text2 CODE >27:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+118 text2 CODE >27:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+11B text2 CODE >28:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+11F text2 CODE >29:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+123 text2 CODE >32:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+126 text2 CODE >33:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+127 text2 CODE >34:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+12B text2 CODE >35:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+12C text2 CODE >36:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+12F text2 CODE >38:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\pwm.c
+16B text1 CODE >103:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+16B text1 CODE >104:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+171 text1 CODE >107:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+175 text1 CODE >108:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+176 text1 CODE >110:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+179 text1 CODE >112:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+17A text1 CODE >113:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+17D text1 CODE >114:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+180 text1 CODE >115:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+181 text1 CODE >116:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+183 text1 CODE >118:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+192 text1 CODE >119:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+198 text1 CODE >122:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+199 text1 CODE >123:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+19A text1 CODE >124:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+19B text1 CODE >125:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+19E text1 CODE >126:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+19F text1 CODE >129:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1EB maintext CODE >79:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1EB maintext CODE >80:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
+1F0 maintext CODE >83:C:\Users\javyp\OneDrive\Documentos\UNIVERSIDAD\Lab_Digital\Proyecto_1\Slave_P1.X\main_slave_p1.c
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -174,49 +234,60 @@ $dist/default/production\Slave_P1.X.production.o
 # is the name of the object file in which the symbol was defined.
 %SYMTAB
 ___latbits 2 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
-__Hspace_0 800 0 ABS 0 - -
-__Hspace_1 7E 0 ABS 0 - -
+__Hspace_0 1FF 0 ABS 0 - -
+__Hspace_1 7B 0 ABS 0 - -
 __Hspace_2 0 0 ABS 0 - -
 __Hspace_3 0 0 ABS 0 - -
 __Hspace_4 4010 0 ABS 0 - -
 __Heeprom_data 0 0 EEDATA 3 eeprom_data -
 __Hstrings 0 0 ABS 0 strings -
-___sp 0 0 STACK 2 stack C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-_main D5E 0 CODE 0 maintext dist/default/production\Slave_P1.X.production.o
+___sp 0 0 STACK 2 stack C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+_main 3D6 0 CODE 0 maintext dist/default/production\Slave_P1.X.production.o
 btemp 7E 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
-start 0 0 CODE 0 init C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-__end_of_USART_send D5E 0 CODE 0 text5 dist/default/production\Slave_P1.X.production.o
+start 18 0 CODE 0 init C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+_OPTION_REGbits 81 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 __Hpowerup 0 0 CODE 0 powerup -
-intlevel0 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-intlevel1 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-intlevel2 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-intlevel3 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-intlevel4 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-intlevel5 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAs974.o
+intlevel0 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+intlevel1 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+intlevel2 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+intlevel3 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+intlevel4 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+intlevel5 0 0 ENTRY 0 functab C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
 _OSCCONbits 8F 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 wtemp0 7E 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 __Hfunctab 0 0 ENTRY 0 functab -
 __Hclrtext 0 0 ABS 0 clrtext -
+_ADRESH 1E 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+_ADRESL 9E 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 _ANSELH 189 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+_CCPR1L 15 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 __Lmaintext 0 0 ABS 0 maintext -
-__end_of_USART_set FF8 0 CODE 0 text3 dist/default/production\Slave_P1.X.production.o
-__end_of_int_osc_MHz E48 0 CODE 0 text2 dist/default/production\Slave_P1.X.production.o
-__end_of___lldiv F14 0 CODE 0 text4 dist/default/production\Slave_P1.X.production.o
-___stackhi 0 0 ABS 0 - C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-___stacklo 0 0 ABS 0 - C:\Users\javyp\AppData\Local\Temp\xcAs974.o
+__end_of_USART_set 112 0 CODE 0 text4 dist/default/production\Slave_P1.X.production.o
+__end_of_int_osc_MHz 2D6 0 CODE 0 text3 dist/default/production\Slave_P1.X.production.o
+__end_of___lldiv 1E2 0 CODE 0 text5 dist/default/production\Slave_P1.X.production.o
+pwm_duty_cycle@duty_cycle 72 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+___stackhi 0 0 ABS 0 - C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+___stacklo 0 0 ABS 0 - C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
 _BAUDCTLbits 187 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
-_USART_set F14 0 CODE 0 text3 dist/default/production\Slave_P1.X.production.o
-___lldiv@counter 7D 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
-start_initialization FF8 0 CODE 0 cinit dist/default/production\Slave_P1.X.production.o
-___lldiv@dividend 74 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+pwm_init@channel 74 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+_USART_set 2E 0 CODE 0 text4 dist/default/production\Slave_P1.X.production.o
+___lldiv@counter 24 0 BANK0 1 cstackBANK0 dist/default/production\Slave_P1.X.production.o
+_WPUBbits 95 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+start_initialization 1E 0 CODE 0 cinit dist/default/production\Slave_P1.X.production.o
+_TRISAbits 85 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+_TRISBbits 86 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+_TRISCbits 87 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+___lldiv@dividend 76 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+_pwm_init 1E2 0 CODE 0 text2 dist/default/production\Slave_P1.X.production.o
 _SPBRGH 9A 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 __pcstackBANK0 20 0 BANK0 1 cstackBANK0 dist/default/production\Slave_P1.X.production.o
-___int_sp 0 0 STACK 2 stack C:\Users\javyp\AppData\Local\Temp\xcAs974.o
+__end_of_pwm_init 260 0 CODE 0 text2 dist/default/production\Slave_P1.X.production.o
+___int_sp 0 0 STACK 2 stack C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
 __Hbank0 0 0 ABS 0 bank0 -
 __Hbank1 0 0 ABS 0 bank1 -
 __Hbank2 0 0 ABS 0 bank2 -
 __Hbank3 0 0 ABS 0 bank3 -
-__Hcinit 1000 0 CODE 0 cinit -
+__Hcinit 2E 0 CODE 0 cinit -
 __Hidloc 4008 0 IDLOC 5 idloc -
 __Hstack 0 0 STACK 2 stack -
 __Hmaintext 0 0 ABS 0 maintext -
@@ -226,13 +297,14 @@ __Lbank0 0 0 ABS 0 bank0 -
 __Lbank1 0 0 ABS 0 bank1 -
 __Lbank2 0 0 ABS 0 bank2 -
 __Lbank3 0 0 ABS 0 bank3 -
-__Lcinit FF8 0 CODE 0 cinit -
+__Lcinit 1E 0 CODE 0 cinit -
 __Lidloc 0 0 IDLOC 5 idloc -
 __Lstack 0 0 STACK 2 stack -
+_PORTBbits 6 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 _INTCONbits B 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 __Habs1 0 0 ABS 0 abs1 -
 __Hcode 0 0 ABS 0 code -
-__Hinit 0 0 CODE 0 init -
+__Hinit 18 0 CODE 0 init -
 __Hsfr0 0 0 ABS 0 sfr0 -
 __Hsfr1 0 0 ABS 0 sfr1 -
 __Hsfr2 0 0 ABS 0 sfr2 -
@@ -240,7 +312,7 @@ __Hsfr3 0 0 ABS 0 sfr3 -
 __Htext 0 0 ABS 0 text -
 __Labs1 0 0 ABS 0 abs1 -
 __Lcode 0 0 ABS 0 code -
-__Linit 0 0 CODE 0 init -
+__Linit 18 0 CODE 0 init -
 __Lsfr0 0 0 ABS 0 sfr0 -
 __Lsfr1 0 0 ABS 0 sfr1 -
 __Lsfr2 0 0 ABS 0 sfr2 -
@@ -248,63 +320,86 @@ __Lsfr3 0 0 ABS 0 sfr3 -
 __Ltext 0 0 ABS 0 text -
 __LcstackBANK0 0 0 ABS 0 cstackBANK0 -
 __HcstackCOMMON 0 0 ABS 0 cstackCOMMON -
-__S0 800 0 ABS 0 - -
-__S1 7E 0 ABS 0 - -
+_PR2 92 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+__S0 1FF 0 ABS 0 - -
+__S1 7B 0 ABS 0 - -
 __S3 0 0 ABS 0 - -
-__Lintentry 0 0 CODE 0 intentry -
-___lldiv@divisor 70 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
-reset_vec 0 0 CODE 0 reset_vec C:\Users\javyp\AppData\Local\Temp\xcAs974.o
-USART_set@baudrate 20 0 BANK0 1 cstackBANK0 dist/default/production\Slave_P1.X.production.o
+_pwm_duty_cycle 3A6 0 CODE 0 text7 dist/default/production\Slave_P1.X.production.o
+saved_w 7E 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+__Lintentry 8 0 CODE 0 intentry -
+___lldiv@divisor 72 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+reset_vec 0 0 CODE 0 reset_vec C:\Users\javyp\AppData\Local\Temp\xcAsg9o.o
+__LbssBANK0 0 0 ABS 0 bssBANK0 -
+USART_set@baudrate 25 0 BANK0 1 cstackBANK0 dist/default/production\Slave_P1.X.production.o
 _RCSTAbits 18 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 _PIE1bits 8C 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
-___lldiv E48 0 CODE 0 text4 dist/default/production\Slave_P1.X.production.o
-__pmaintext D5E 0 CODE 0 maintext dist/default/production\Slave_P1.X.production.o
+__end_of_pwm_duty_cycle 3D6 0 CODE 0 text7 dist/default/production\Slave_P1.X.production.o
+___lldiv 112 0 CODE 0 text5 dist/default/production\Slave_P1.X.production.o
+__pmaintext 3D6 0 CODE 0 maintext dist/default/production\Slave_P1.X.production.o
 __Lcommon 0 0 ABS 0 common -
 __Lconfig 0 0 CONFIG 4 config -
-USART_send@data 70 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+_ADCON0bits 1F 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+_ADCON1bits 9F 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 __Lspace_0 0 0 ABS 0 - -
 __Lspace_1 0 0 ABS 0 - -
 __Lspace_2 0 0 ABS 0 - -
 __Lspace_3 0 0 ABS 0 - -
 __Lspace_4 0 0 ABS 0 - -
 __HcstackBANK0 0 0 ABS 0 cstackBANK0 -
-__Lend_init 0 0 CODE 0 end_init -
+_PIR1bits C 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+__Lend_init 18 0 CODE 0 end_init -
 __LcstackCOMMON 0 0 ABS 0 cstackCOMMON -
-end_of_initialization FF8 0 CODE 0 cinit dist/default/production\Slave_P1.X.production.o
-__Hintentry 0 0 CODE 0 intentry -
+end_of_initialization 26 0 CODE 0 cinit dist/default/production\Slave_P1.X.production.o
+__Hintentry 18 0 CODE 0 intentry -
 __Lstrings 0 0 ABS 0 strings -
-?___lldiv 70 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
-__Hreset_vec 0 0 CODE 0 reset_vec -
-__ptext1 D92 0 CODE 0 text1 dist/default/production\Slave_P1.X.production.o
-__ptext2 DD2 0 CODE 0 text2 dist/default/production\Slave_P1.X.production.o
-__ptext3 F14 0 CODE 0 text3 dist/default/production\Slave_P1.X.production.o
-__ptext4 E48 0 CODE 0 text4 dist/default/production\Slave_P1.X.production.o
-__ptext5 D46 0 CODE 0 text5 dist/default/production\Slave_P1.X.production.o
+?___lldiv 72 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+__Hreset_vec 6 0 CODE 0 reset_vec -
+__HbssBANK0 0 0 ABS 0 bssBANK0 -
+__ptext1 2D6 0 CODE 0 text1 dist/default/production\Slave_P1.X.production.o
+__ptext2 1E2 0 CODE 0 text2 dist/default/production\Slave_P1.X.production.o
+__ptext3 260 0 CODE 0 text3 dist/default/production\Slave_P1.X.production.o
+__ptext4 2E 0 CODE 0 text4 dist/default/production\Slave_P1.X.production.o
+__ptext5 112 0 CODE 0 text5 dist/default/production\Slave_P1.X.production.o
+__ptext6 340 0 CODE 0 text6 dist/default/production\Slave_P1.X.production.o
+__ptext7 3A6 0 CODE 0 text7 dist/default/production\Slave_P1.X.production.o
+__ptext8 374 0 CODE 0 text8 dist/default/production\Slave_P1.X.production.o
 __Lpowerup 0 0 CODE 0 powerup -
 __Leeprom_data 0 0 EEDATA 3 eeprom_data -
 __Lreset_vec 0 0 CODE 0 reset_vec -
-__end_of__initialization FF8 0 CODE 0 cinit dist/default/production\Slave_P1.X.production.o
+_switch_servo 35 0 BANK0 1 bssBANK0 dist/default/production\Slave_P1.X.production.o
+__end_of__initialization 26 0 CODE 0 cinit dist/default/production\Slave_P1.X.production.o
 __Lfunctab 0 0 ENTRY 0 functab -
-_int_osc_MHz DD2 0 CODE 0 text2 dist/default/production\Slave_P1.X.production.o
+_int_osc_MHz 260 0 CODE 0 text3 dist/default/production\Slave_P1.X.production.o
 __Lclrtext 0 0 ABS 0 clrtext -
-___lldiv@quotient 79 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+servo@mov 76 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+___lldiv@quotient 20 0 BANK0 1 cstackBANK0 dist/default/production\Slave_P1.X.production.o
 __pcstackCOMMON 70 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
 _TXSTAbits 98 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
-__Hend_init 6 0 CODE 0 end_init -
-__end_of_main D92 0 CODE 0 maintext dist/default/production\Slave_P1.X.production.o
+__Hend_init 1E 0 CODE 0 end_init -
+__end_of_main 3FE 0 CODE 0 maintext dist/default/production\Slave_P1.X.production.o
+_CCP2CONbits 1D 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 _ANSEL 188 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
-_PORTA 5 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 _RCREG 1A 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 _SPBRG 99 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
-_TRISA 85 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 _TXREG 19 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
-__end_of_setup DD2 0 CODE 0 text1 dist/default/production\Slave_P1.X.production.o
+__end_of_servo 374 0 CODE 0 text6 dist/default/production\Slave_P1.X.production.o
+__end_of_setup 340 0 CODE 0 text1 dist/default/production\Slave_P1.X.production.o
+__end_of_slave 3A6 0 CODE 0 text8 dist/default/production\Slave_P1.X.production.o
 __Hram 0 0 ABS 0 ram -
 __Lram 0 0 ABS 0 ram -
-_setup D92 0 CODE 0 text1 dist/default/production\Slave_P1.X.production.o
-_USART_send D46 0 CODE 0 text5 dist/default/production\Slave_P1.X.production.o
-__initialization FF8 0 CODE 0 cinit dist/default/production\Slave_P1.X.production.o
-int_osc_MHz@freq 72 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+interrupt_function 8 0 CODE 0 intentry dist/default/production\Slave_P1.X.production.o
+_IOCBbits 96 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+_servo 340 0 CODE 0 text6 dist/default/production\Slave_P1.X.production.o
+_setup 2D6 0 CODE 0 text1 dist/default/production\Slave_P1.X.production.o
+_slave 374 0 CODE 0 text8 dist/default/production\Slave_P1.X.production.o
+_CCP1CON 17 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+_CCP2CON 1D 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+__pintentry 8 0 CODE 0 intentry dist/default/production\Slave_P1.X.production.o
+__initialization 1E 0 CODE 0 cinit dist/default/production\Slave_P1.X.production.o
+__pbssBANK0 35 0 BANK0 1 bssBANK0 dist/default/production\Slave_P1.X.production.o
+_T2CONbits 12 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
+int_osc_MHz@freq 74 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.production.o
+_CCP1CONbits 17 0 ABS 0 - dist/default/production\Slave_P1.X.production.o
 # %SPLITSTAB Section
 # This section enumerates all the psect splits performed by the assembler.
 # The beginning of the section is indicated by %SPLITSTAB.
@@ -330,15 +425,9 @@ int_osc_MHz@freq 72 0 COMMON 1 cstackCOMMON dist/default/production\Slave_P1.X.p
 # and size are in units of delta. The file address is in units of bytes.
 # All other numeric quantities are in decimal.
 %SEGMENTS
-cinit 0 7FC FF8 4 2
-text1 0 6C9 D92 20 2
-text2 0 6E9 DD2 3B 2
-text3 0 78A F14 72 2
-text4 0 724 E48 66 2
-text5 0 6A3 D46 C 2
-maintext 0 6AF D5E 1A 2
-cstackCOMMON 1 70 70 E 1
-cstackBANK0 1 20 20 12 1
+cstackCOMMON 1 70 70 B 1
+cstackBANK0 1 20 20 17 1
+intentry 0 4 8 1FB 2
 reset_vec 0 0 0 3 2
 # %NOTES Section
 # This section contains data of all the note-psects.  The beginning of the section

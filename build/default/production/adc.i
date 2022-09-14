@@ -1,4 +1,4 @@
-# 1 "main_slave_p1.c"
+# 1 "adc.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,30 +6,8 @@
 # 1 "<built-in>" 2
 # 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "main_slave_p1.c" 2
-# 16 "main_slave_p1.c"
-#pragma config FOSC = INTRC_NOCLKOUT
-#pragma config WDTE = OFF
-#pragma config PWRTE = OFF
-#pragma config MCLRE = OFF
-#pragma config CP = OFF
-#pragma config CPD = OFF
-#pragma config BOREN = OFF
-#pragma config IESO = OFF
-#pragma config FCMEN = OFF
-#pragma config LVP = OFF
-
-
-#pragma config BOR4V = BOR21V
-#pragma config WRT = OFF
-
-
-
-
-
-
-
-
+# 1 "adc.c" 2
+# 11 "adc.c"
 # 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 1 3
 # 18 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -2647,28 +2625,7 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
-# 37 "main_slave_p1.c" 2
-
-
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 39 "main_slave_p1.c" 2
-
-# 1 "./osc.h" 1
-# 14 "./osc.h"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 14 "./osc.h" 2
-
-
-void int_osc_MHz(uint8_t freq);
-# 40 "main_slave_p1.c" 2
-
-# 1 "./USART.h" 1
-# 12 "./USART.h"
-void USART_set(const unsigned long int baudrate);
-void USART_send(const char data);
-void USART_print(const char *string);
-char USART_read(void);
-# 41 "main_slave_p1.c" 2
+# 11 "adc.c" 2
 
 # 1 "./adc.h" 1
 # 14 "./adc.h"
@@ -2682,99 +2639,108 @@ uint16_t adc_read(void);
 
 
 void adc_ch_switch(uint8_t channels);
-# 42 "main_slave_p1.c" 2
-
-# 1 "./pwm.h" 1
-# 14 "./pwm.h"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 14 "./pwm.h" 2
+# 12 "adc.c" 2
 
 
-void pwm_init (uint8_t channel);
-
-
-
-
-
-
-
-void pwm_duty_cycle (uint16_t duty_cycle);
-# 43 "main_slave_p1.c" 2
-# 53 "main_slave_p1.c"
-uint16_t switch_servo = 0;
-
-
-
-void setup(void);
-void servo(unsigned short mov);
-
-
-
-void __attribute__((picinterrupt(("")))) slave(void){
-    if(INTCONbits.RBIF){
-        if(!PORTBbits.RB1){
-            switch_servo = 1;
-        }
-        else{
-            switch_servo = 0;
-        }
-        INTCONbits.RBIF = 0;
+void adc_init(uint8_t adc_cs, uint8_t vref_plus, uint8_t vref_minus){
+    switch(adc_cs){
+        case 0:
+            ADCON0bits.ADCS = 0b00;
+            break;
+        case 1:
+            ADCON0bits.ADCS = 0b01;
+            break;
+        case 2:
+            ADCON0bits.ADCS = 0b10;
+            break;
+        case 3:
+            ADCON0bits.ADCS = 0b11;
+            break;
+        default:
+            ADCON0bits.ADCS = 0b01;
+            break;
     }
-    return;
+    switch(vref_plus){
+        case 0:
+            ADCON1bits.VCFG0 = 0;
+            break;
+        case 1:
+            ADCON1bits.VCFG0 = 1;
+            break;
+        default:
+            ADCON1bits.VCFG0 = 0;
+            break;
+    }
+    switch(vref_minus){
+        case 0:
+            ADCON1bits.VCFG1 = 0;
+            break;
+        case 1:
+            ADCON1bits.VCFG1 = 1;
+            break;
+        default:
+            ADCON1bits.VCFG1 = 0;
+            break;
+    }
+    ADCON1bits.ADFM = 1;
+    ADCON0bits.ADON = 1;
+    PIE1bits.ADIE = 1;
+    PIR1bits.ADIF = 0;
 }
-
-
-
-
-
-void main(void) {
-    setup();
-    while(1){
-
-        servo(switch_servo);
-    }
-    return;
-}
-
-
-
-
-void servo(unsigned short mov){
-    if (mov == 1){
-        pwm_duty_cycle(94);
-    }
-    else{
-        pwm_duty_cycle(31);
+void adc_start(uint8_t channel){
+    if(ADCON0bits.GO == 0){
+        ADCON0bits.CHS = channel;
+        _delay((unsigned long)((40)*(1000000/4000000.0)));
+        ADCON0bits.GO = 1;
     }
 }
+uint16_t adc_read(void){
+    PIR1bits.ADIF = 0;
+    return ((ADRESH << 8) + ADRESL);
+}
 
-
-
-
-void setup(void){
-    int_osc_MHz(1);
-
-
-    ANSEL = 0x01;
-    ANSELH = 0;
-
-    TRISAbits.TRISA0 = 1;
-
-    TRISBbits.TRISB0 = 0;
-    PORTBbits.RB0 = 0;
-    TRISBbits.TRISB1 = 1;
-    OPTION_REGbits.nRBPU = 0;
-    WPUBbits.WPUB = 2;
-
-    USART_set(9600);
-    pwm_init(1);
-
-
-    INTCONbits.GIE = 1;
-    INTCONbits.PEIE = 1;
-    INTCONbits.RBIE = 1;
-    IOCBbits.IOCB1 = 1;
-    INTCONbits.RBIF = 0;
-
-    return;
+void adc_ch_switch(uint8_t channels){
+    switch(channels){
+        case 1:
+            if (ADCON0bits.GO == 0){
+                ADCON0bits.CHS = 0;
+                _delay((unsigned long)((40)*(1000000/4000000.0)));
+                ADCON0bits.GO = 1;
+            }
+            break;
+        case 2:
+            if (ADCON0bits.GO == 0){
+                if (ADCON0bits.CHS == 0){
+                    ADCON0bits.CHS = 1;
+                    _delay((unsigned long)((40)*(1000000/4000000.0)));
+                }
+                else if (ADCON0bits.CHS == 1){
+                    ADCON0bits.CHS = 0;
+                    _delay((unsigned long)((40)*(1000000/4000000.0)));
+                }
+                _delay((unsigned long)((40)*(1000000/4000000.0)));
+                ADCON0bits.GO = 1;
+            }
+            break;
+        case 3:
+            if (ADCON0bits.GO == 0){
+                if (ADCON0bits.CHS == 0){
+                    ADCON0bits.CHS = 1;
+                    _delay((unsigned long)((40)*(1000000/4000000.0)));
+                }
+                else if (ADCON0bits.CHS == 1){
+                    ADCON0bits.CHS = 2;
+                    _delay((unsigned long)((40)*(1000000/4000000.0)));
+                }
+                else if (ADCON0bits.CHS == 2){
+                    ADCON0bits.CHS = 0;
+                    _delay((unsigned long)((40)*(1000000/4000000.0)));
+                }
+                _delay((unsigned long)((40)*(1000000/4000000.0)));
+                ADCON0bits.GO = 1;
+            }
+            break;
+        default:
+            break;
+    }
 }

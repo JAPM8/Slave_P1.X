@@ -6,6 +6,8 @@
                    projectFiles="true">
       <itemPath>osc.h</itemPath>
       <itemPath>USART.h</itemPath>
+      <itemPath>adc.h</itemPath>
+      <itemPath>pwm.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -17,6 +19,8 @@
       <itemPath>main_slave_p1.c</itemPath>
       <itemPath>osc.c</itemPath>
       <itemPath>USART.c</itemPath>
+      <itemPath>adc.c</itemPath>
+      <itemPath>pwm.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

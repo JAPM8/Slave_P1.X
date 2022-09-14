@@ -39,6 +39,8 @@
 #include <stdint.h>
 #include "osc.h"
 #include "USART.h"
+#include "adc.h"
+#include "pwm.h"
 
 /*
  * Constantes
@@ -48,19 +50,27 @@
 /*
  * Variables
  */
-
+uint16_t switch_servo = 0;
 /*
  * Prototipos de Función
  */
 void setup(void); //Función para configuraciones
-
+void servo(unsigned short mov); //Función para accionar motor Servo en base a movimiento
 /*
  * Interrupciones
  */
-/*void __interrupt() slave(void){
-    
+void __interrupt() slave(void){
+    if(INTCONbits.RBIF){ // Interrucpción PORTB
+        if(!PORTBbits.RB1){  // ¿Sensor de movimiento en RB1?
+            switch_servo = 1; // Si hay movimiento -> Abrir
+        }
+        else{
+            switch_servo = 0; // Si ya no hay movimiento -> Cerrar
+        }
+        INTCONbits.RBIF = 0; // Flag Int. Portb -> Clear
+    }
     return;
-}*/
+}
 
 /*
  * Loop principal
@@ -69,29 +79,51 @@ void setup(void); //Función para configuraciones
 void main(void) {
     setup();
     while(1){
-        USART_send('A');
-        __delay_ms(100); 
+        //USART_send('A');
+        servo(switch_servo);
     }
     return;
+}
+
+/*
+ * Funciones
+ */
+void servo(unsigned short mov){
+    if (mov == 1){
+        pwm_duty_cycle(94); // PWM -> 90°
+    }
+    else{
+        pwm_duty_cycle(31); // PWM -> 0°
+    }        
 }
 
 /*
  * Configuraciones
  */
 void setup(void){
-    int_osc_MHz(1); //OSC a 1 MHz
+    int_osc_MHz(1); //OSC a 1 MHz        
     
-    //I/O DIGITALES
-    ANSEL = 0;
+    //I/O DIGITALES - Excepto RA0
+    ANSEL = 0x01; //RA0 -> Input analógico
     ANSELH = 0;
     
-    TRISA = 0; //PORTA -> Output 
-    PORTA = 0;
+    TRISAbits.TRISA0 = 1; //RA0 -> Input 
     
-    USART_set(9600);
+    TRISBbits.TRISB0 = 0; //RB0 -> Output
+    PORTBbits.RB0 = 0;  //RB0 -> Clear
+    TRISBbits.TRISB1 = 1; //RB1 -> Input       
+    OPTION_REGbits.nRBPU = 0; //Enable all pull ups
+    WPUBbits.WPUB = 2; //RB1 Pull-up -> Enable
+    
+    USART_set(9600); //Inicialización com. UART a BR 9600
+    pwm_init(1); //CCP1 -> Init
     
     //Interrupciones
     INTCONbits.GIE = 1; //Int. Globales
     INTCONbits.PEIE = 1; //Int. de periféricos
+    INTCONbits.RBIE = 1; // Int. PORTB -> Enable
+    IOCBbits.IOCB1 = 1; // IOCB RB1 -> Enable
+    INTCONbits.RBIF = 0; // Flag Int. PORTB -> Clear
+    
     return;
 }
