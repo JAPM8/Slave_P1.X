@@ -40,7 +40,7 @@
 #include "osc.h"
 #include "pwm.h"
 #include "USART.h"
-//#include "adc.h"
+#include "adc.h"
 
 
 /*
@@ -48,15 +48,23 @@
  */
 #define _XTAL_FREQ 1000000 //Osc a 1 MHz
 
+#define IN_MIN 0                
+#define IN_MAX 1023 
+#define OUT_MIN 0
+#define OUT_MAX 45
+
 /*
  * Variables
  */
-uint16_t switch_servo = 0, last_mov = 5;
+uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
 /*
  * Prototipos de Función
  */
 void setup(void); //Función para configuraciones
 void servo(unsigned short mov); //Función para accionar motor Servo en base a movimiento
+unsigned short map(uint16_t  val, uint8_t  in_min, uint16_t in_max, 
+                   unsigned short out_min, unsigned short out_max);
+void motor_dc(int temp);
 /*
  * Interrupciones
  */
@@ -70,6 +78,12 @@ void __interrupt() slave(void){
         }
         INTCONbits.RBIF = 0; // Flag Int. Portb -> Clear
     }
+    if(PIR1bits.ADIF){                      
+        if(ADCON0bits.CHS == 0){ // Interrupción AN0
+            TEMP_POT = map(adc_read(), IN_MIN, IN_MAX, OUT_MIN, OUT_MAX);            
+        }
+        PIR1bits.ADIF = 0;  // Flag Int. ADC -> Clear
+    }
     return;
 }
 
@@ -80,6 +94,8 @@ void __interrupt() slave(void){
 void main(void) {
     setup();
     while(1){
+        adc_ch_switch(1); //CH1 -> Inicialización de conversión
+        motor_dc(TEMP_POT);
         servo(switch_servo);
     }
     return;
@@ -88,6 +104,25 @@ void main(void) {
 /*
  * Funciones
  */
+
+unsigned short map(uint16_t x, uint8_t x0, uint16_t x1, 
+            unsigned short y0, unsigned short y1){
+    return (unsigned short)(y0+((float)(y1-y0)/(x1-x0))*(x-x0));
+}
+void motor_dc(int temp){
+    if(temp >= 23){
+        PORTBbits.RB0 = 1; // Se activa ventilador
+    }
+    else{
+        PORTBbits.RB0 = 0; // Se detiene ventilador
+    }
+    
+    if (temp != OLD_TEMP){
+        OLD_TEMP = temp;
+        USART_send(temp+128);
+    }
+    return;
+}
 void servo(unsigned short mov){
     if (mov == 1){
         pwm_duty_cycle(94); // PWM -> 90°
@@ -111,9 +146,9 @@ void setup(void){
     int_osc_MHz(1); //OSC a 1 MHz        
     
     //I/O DIGITALES - Excepto RA0
-    ANSEL = 0; //RA0 -> Input analógico
+    ANSEL = 0x01; //RA0 -> Input analógico
     ANSELH = 0;
-    //TRISAbits.TRISA0 = 1; //RA0 -> Input 
+    TRISAbits.TRISA0 = 1; //RA0 -> Input 
 
     TRISBbits.TRISB0 = 0; //RB0 -> Output
     PORTBbits.RB0 = 0;  //RB0 -> Clear
@@ -124,6 +159,7 @@ void setup(void){
     
     pwm_init(1); //CCP1 -> Init
     USART_set(9600); //Inicialización com. UART a BR 9600
+    adc_init(0,0,0); // -> FOSC/2 , V_DD, V_SS, justificado a la izquierda (comunista xdd)
     
     //Interrupciones
     INTCONbits.GIE = 1; //Int. Globales

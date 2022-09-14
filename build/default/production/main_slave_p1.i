@@ -2685,13 +2685,30 @@ void USART_set(const unsigned long int baudrate);
 void USART_send(const char data);
 void USART_print(const char *string);
 # 42 "main_slave_p1.c" 2
-# 54 "main_slave_p1.c"
-uint16_t switch_servo = 0, last_mov = 5;
+
+# 1 "./adc.h" 1
+# 14 "./adc.h"
+void adc_init(uint8_t adc_cs, uint8_t vref_plus, uint8_t vref_minus);
+# 32 "./adc.h"
+void adc_start(uint8_t channel);
+# 53 "./adc.h"
+uint16_t adc_read(void);
+
+
+
+
+void adc_ch_switch(uint8_t channels);
+# 43 "main_slave_p1.c" 2
+# 59 "main_slave_p1.c"
+uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
 
 
 
 void setup(void);
 void servo(unsigned short mov);
+unsigned short map(uint16_t val, uint8_t in_min, uint16_t in_max,
+                   unsigned short out_min, unsigned short out_max);
+void motor_dc(int temp);
 
 
 
@@ -2705,6 +2722,12 @@ void __attribute__((picinterrupt(("")))) slave(void){
         }
         INTCONbits.RBIF = 0;
     }
+    if(PIR1bits.ADIF){
+        if(ADCON0bits.CHS == 0){
+            TEMP_POT = map(adc_read(), 0, 1023, 0, 45);
+        }
+        PIR1bits.ADIF = 0;
+    }
     return;
 }
 
@@ -2715,6 +2738,8 @@ void __attribute__((picinterrupt(("")))) slave(void){
 void main(void) {
     setup();
     while(1){
+        adc_ch_switch(1);
+        motor_dc(TEMP_POT);
         servo(switch_servo);
     }
     return;
@@ -2723,6 +2748,25 @@ void main(void) {
 
 
 
+
+unsigned short map(uint16_t x, uint8_t x0, uint16_t x1,
+            unsigned short y0, unsigned short y1){
+    return (unsigned short)(y0+((float)(y1-y0)/(x1-x0))*(x-x0));
+}
+void motor_dc(int temp){
+    if(temp >= 23){
+        PORTBbits.RB0 = 1;
+    }
+    else{
+        PORTBbits.RB0 = 0;
+    }
+
+    if (temp != OLD_TEMP){
+        OLD_TEMP = temp;
+        USART_send(temp+128);
+    }
+    return;
+}
 void servo(unsigned short mov){
     if (mov == 1){
         pwm_duty_cycle(94);
@@ -2746,9 +2790,9 @@ void setup(void){
     int_osc_MHz(1);
 
 
-    ANSEL = 0;
+    ANSEL = 0x01;
     ANSELH = 0;
-
+    TRISAbits.TRISA0 = 1;
 
     TRISBbits.TRISB0 = 0;
     PORTBbits.RB0 = 0;
@@ -2759,6 +2803,7 @@ void setup(void){
 
     pwm_init(1);
     USART_set(9600);
+    adc_init(0,0,0);
 
 
     INTCONbits.GIE = 1;
