@@ -28,15 +28,18 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 246: extern volatile PORTBbits_t PORTBbits __attribute__((address(0x006)));
 [v _PORTBbits `VS7 ~T0 @X0 0 e@6 ]
 [p mainexit ]
-"57 main_slave_p1.c
-[; ;main_slave_p1.c: 57: void setup(void);
+"58 main_slave_p1.c
+[; ;main_slave_p1.c: 58: void setup(void);
 [v _setup `(v ~T0 @X0 0 ef ]
-"58
-[; ;main_slave_p1.c: 58: void servo(unsigned short mov);
+"59
+[; ;main_slave_p1.c: 59: void servo(unsigned short mov);
 [v _servo `(v ~T0 @X0 0 ef1`us ]
 "24 ./pwm.h
 [; ;./pwm.h: 24: void pwm_duty_cycle (uint16_t duty_cycle);
 [v _pwm_duty_cycle `(v ~T0 @X0 0 ef1`ui ]
+"13 ./USART.h
+[; ;./USART.h: 13: void USART_send(const char data);
+[v _USART_send `(v ~T0 @X0 0 ef1`Cuc ]
 "16 ./osc.h
 [; ;./osc.h: 16: void int_osc_MHz(uint8_t freq);
 [v _int_osc_MHz `(v ~T0 @X0 0 ef1`uc ]
@@ -46,17 +49,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "3450
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 3450: extern volatile unsigned char ANSELH __attribute__((address(0x189)));
 [v _ANSELH `Vuc ~T0 @X0 0 e@393 ]
-"1423
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1423:     struct {
-[s S53 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S53 . TRISA0 TRISA1 TRISA2 TRISA3 TRISA4 TRISA5 TRISA6 TRISA7 ]
-"1422
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1422: typedef union {
-[u S52 `S53 1 ]
-[n S52 . . ]
-"1434
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1434: extern volatile TRISAbits_t TRISAbits __attribute__((address(0x085)));
-[v _TRISAbits `VS52 ~T0 @X0 0 e@133 ]
 "1485
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1485:     struct {
 [s S55 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -98,12 +90,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "2367
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 2367: extern volatile WPUBbits_t WPUBbits __attribute__((address(0x095)));
 [v _WPUBbits `VS89 ~T0 @X0 0 e@149 ]
-"12 ./USART.h
-[; ;./USART.h: 12: void USART_set(const unsigned long int baudrate);
-[v _USART_set `(v ~T0 @X0 0 ef1`Cul ]
 "16 ./pwm.h
 [; ;./pwm.h: 16: void pwm_init (uint8_t channel);
 [v _pwm_init `(v ~T0 @X0 0 ef1`uc ]
+"12 ./USART.h
+[; ;./USART.h: 12: void USART_set(const unsigned long int baudrate);
+[v _USART_set `(v ~T0 @X0 0 ef1`Cul ]
 "2423 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 2423:     struct {
 [s S93 :8 `uc 1 ]
@@ -377,71 +369,75 @@ Version 4.0 HI-TECH Software Intermediate Code
 "3547
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 3547: __asm("EECON2 equ 018Dh");
 [; <" EECON2 equ 018Dh ;# ">
-"53 main_slave_p1.c
-[; ;main_slave_p1.c: 53: uint16_t switch_servo = 0;
+"54 main_slave_p1.c
+[; ;main_slave_p1.c: 54: uint16_t switch_servo = 0, last_mov = 5;
 [v _switch_servo `ui ~T0 @X0 1 e ]
 [i _switch_servo
 -> -> 0 `i `ui
 ]
+[v _last_mov `ui ~T0 @X0 1 e ]
+[i _last_mov
+-> -> 5 `i `ui
+]
 [v $root$_slave `(v ~T0 @X0 0 e ]
-"62
-[; ;main_slave_p1.c: 62: void __attribute__((picinterrupt(("")))) slave(void){
+"63
+[; ;main_slave_p1.c: 63: void __attribute__((picinterrupt(("")))) slave(void){
 [v _slave `(v ~T1 @X0 1 ef ]
 {
 [e :U _slave ]
 [f ]
-"63
-[; ;main_slave_p1.c: 63:     if(INTCONbits.RBIF){
+"64
+[; ;main_slave_p1.c: 64:     if(INTCONbits.RBIF){
 [e $ ! != -> . . _INTCONbits 0 0 `i -> 0 `i 139  ]
 {
-"64
-[; ;main_slave_p1.c: 64:         if(!PORTBbits.RB1){
+"65
+[; ;main_slave_p1.c: 65:         if(!PORTBbits.RB1){
 [e $ ! ! != -> . . _PORTBbits 0 1 `i -> 0 `i 140  ]
 {
-"65
-[; ;main_slave_p1.c: 65:             switch_servo = 1;
-[e = _switch_servo -> -> 1 `i `ui ]
 "66
-[; ;main_slave_p1.c: 66:         }
+[; ;main_slave_p1.c: 66:             switch_servo = 1;
+[e = _switch_servo -> -> 1 `i `ui ]
+"67
+[; ;main_slave_p1.c: 67:         }
 }
 [e $U 141  ]
-"67
-[; ;main_slave_p1.c: 67:         else{
+"68
+[; ;main_slave_p1.c: 68:         else{
 [e :U 140 ]
 {
-"68
-[; ;main_slave_p1.c: 68:             switch_servo = 0;
-[e = _switch_servo -> -> 0 `i `ui ]
 "69
-[; ;main_slave_p1.c: 69:         }
+[; ;main_slave_p1.c: 69:             switch_servo = 0;
+[e = _switch_servo -> -> 0 `i `ui ]
+"70
+[; ;main_slave_p1.c: 70:         }
 }
 [e :U 141 ]
-"70
-[; ;main_slave_p1.c: 70:         INTCONbits.RBIF = 0;
-[e = . . _INTCONbits 0 0 -> -> 0 `i `uc ]
 "71
-[; ;main_slave_p1.c: 71:     }
+[; ;main_slave_p1.c: 71:         INTCONbits.RBIF = 0;
+[e = . . _INTCONbits 0 0 -> -> 0 `i `uc ]
+"72
+[; ;main_slave_p1.c: 72:     }
 }
 [e :U 139 ]
-"72
-[; ;main_slave_p1.c: 72:     return;
-[e $UE 138  ]
 "73
-[; ;main_slave_p1.c: 73: }
+[; ;main_slave_p1.c: 73:     return;
+[e $UE 138  ]
+"74
+[; ;main_slave_p1.c: 74: }
 [e :UE 138 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"79
-[; ;main_slave_p1.c: 79: void main(void) {
+"80
+[; ;main_slave_p1.c: 80: void main(void) {
 [v _main `(v ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
-"80
-[; ;main_slave_p1.c: 80:     setup();
-[e ( _setup ..  ]
 "81
-[; ;main_slave_p1.c: 81:     while(1){
+[; ;main_slave_p1.c: 81:     setup();
+[e ( _setup ..  ]
+"82
+[; ;main_slave_p1.c: 82:     while(1){
 [e :U 144 ]
 {
 "83
@@ -489,68 +485,85 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_slave_p1.c: 97:     }
 }
 [e :U 148 ]
-"98
-[; ;main_slave_p1.c: 98: }
+"99
+[; ;main_slave_p1.c: 99:     if (mov != last_mov){
+[e $ ! != -> _mov `ui _last_mov 149  ]
+{
+"100
+[; ;main_slave_p1.c: 100:         last_mov = mov;
+[e = _last_mov -> _mov `ui ]
+"101
+[; ;main_slave_p1.c: 101:         USART_send((('M')<<1) + !mov);
+[e ( _USART_send (1 -> + << -> 77 `ui -> 1 `i -> -> ! != -> _mov `ui -> -> 0 `i `ui `i `ui `uc ]
+"102
+[; ;main_slave_p1.c: 102:     }
+}
+[e :U 149 ]
+"104
+[; ;main_slave_p1.c: 104:     return;
+[e $UE 146  ]
+"105
+[; ;main_slave_p1.c: 105: }
 [e :UE 146 ]
 }
-"103
-[; ;main_slave_p1.c: 103: void setup(void){
+"110
+[; ;main_slave_p1.c: 110: void setup(void){
 [v _setup `(v ~T0 @X0 1 ef ]
 {
 [e :U _setup ]
 [f ]
-"104
-[; ;main_slave_p1.c: 104:     int_osc_MHz(1);
+"111
+[; ;main_slave_p1.c: 111:     int_osc_MHz(1);
 [e ( _int_osc_MHz (1 -> -> 1 `i `uc ]
-"107
-[; ;main_slave_p1.c: 107:     ANSEL = 0x01;
-[e = _ANSEL -> -> 1 `i `uc ]
-"108
-[; ;main_slave_p1.c: 108:     ANSELH = 0;
-[e = _ANSELH -> -> 0 `i `uc ]
-"110
-[; ;main_slave_p1.c: 110:     TRISAbits.TRISA0 = 1;
-[e = . . _TRISAbits 0 0 -> -> 1 `i `uc ]
-"112
-[; ;main_slave_p1.c: 112:     TRISBbits.TRISB0 = 0;
-[e = . . _TRISBbits 0 0 -> -> 0 `i `uc ]
-"113
-[; ;main_slave_p1.c: 113:     PORTBbits.RB0 = 0;
-[e = . . _PORTBbits 0 0 -> -> 0 `i `uc ]
 "114
-[; ;main_slave_p1.c: 114:     TRISBbits.TRISB1 = 1;
-[e = . . _TRISBbits 0 1 -> -> 1 `i `uc ]
+[; ;main_slave_p1.c: 114:     ANSEL = 0;
+[e = _ANSEL -> -> 0 `i `uc ]
 "115
-[; ;main_slave_p1.c: 115:     OPTION_REGbits.nRBPU = 0;
-[e = . . _OPTION_REGbits 0 5 -> -> 0 `i `uc ]
-"116
-[; ;main_slave_p1.c: 116:     WPUBbits.WPUB = 2;
-[e = . . _WPUBbits 0 0 -> -> 2 `i `uc ]
+[; ;main_slave_p1.c: 115:     ANSELH = 0;
+[e = _ANSELH -> -> 0 `i `uc ]
 "118
-[; ;main_slave_p1.c: 118:     USART_set(9600);
-[e ( _USART_set (1 -> -> -> 9600 `i `l `ul ]
+[; ;main_slave_p1.c: 118:     TRISBbits.TRISB0 = 0;
+[e = . . _TRISBbits 0 0 -> -> 0 `i `uc ]
 "119
-[; ;main_slave_p1.c: 119:     pwm_init(1);
-[e ( _pwm_init (1 -> -> 1 `i `uc ]
+[; ;main_slave_p1.c: 119:     PORTBbits.RB0 = 0;
+[e = . . _PORTBbits 0 0 -> -> 0 `i `uc ]
+"120
+[; ;main_slave_p1.c: 120:     TRISBbits.TRISB1 = 1;
+[e = . . _TRISBbits 0 1 -> -> 1 `i `uc ]
+"121
+[; ;main_slave_p1.c: 121:     PORTBbits.RB1 = 0;
+[e = . . _PORTBbits 0 1 -> -> 0 `i `uc ]
 "122
-[; ;main_slave_p1.c: 122:     INTCONbits.GIE = 1;
-[e = . . _INTCONbits 0 7 -> -> 1 `i `uc ]
+[; ;main_slave_p1.c: 122:     OPTION_REGbits.nRBPU = 0;
+[e = . . _OPTION_REGbits 0 5 -> -> 0 `i `uc ]
 "123
-[; ;main_slave_p1.c: 123:     INTCONbits.PEIE = 1;
-[e = . . _INTCONbits 0 6 -> -> 1 `i `uc ]
-"124
-[; ;main_slave_p1.c: 124:     INTCONbits.RBIE = 1;
-[e = . . _INTCONbits 0 3 -> -> 1 `i `uc ]
+[; ;main_slave_p1.c: 123:     WPUBbits.WPUB = 0x02;
+[e = . . _WPUBbits 0 0 -> -> 2 `i `uc ]
 "125
-[; ;main_slave_p1.c: 125:     IOCBbits.IOCB1 = 1;
-[e = . . _IOCBbits 1 1 -> -> 1 `i `uc ]
+[; ;main_slave_p1.c: 125:     pwm_init(1);
+[e ( _pwm_init (1 -> -> 1 `i `uc ]
 "126
-[; ;main_slave_p1.c: 126:     INTCONbits.RBIF = 0;
-[e = . . _INTCONbits 0 0 -> -> 0 `i `uc ]
-"128
-[; ;main_slave_p1.c: 128:     return;
-[e $UE 149  ]
+[; ;main_slave_p1.c: 126:     USART_set(9600);
+[e ( _USART_set (1 -> -> -> 9600 `i `l `ul ]
 "129
-[; ;main_slave_p1.c: 129: }
-[e :UE 149 ]
+[; ;main_slave_p1.c: 129:     INTCONbits.GIE = 1;
+[e = . . _INTCONbits 0 7 -> -> 1 `i `uc ]
+"130
+[; ;main_slave_p1.c: 130:     INTCONbits.PEIE = 1;
+[e = . . _INTCONbits 0 6 -> -> 1 `i `uc ]
+"131
+[; ;main_slave_p1.c: 131:     INTCONbits.RBIE = 1;
+[e = . . _INTCONbits 0 3 -> -> 1 `i `uc ]
+"132
+[; ;main_slave_p1.c: 132:     IOCBbits.IOCB1 = 1;
+[e = . . _IOCBbits 1 1 -> -> 1 `i `uc ]
+"133
+[; ;main_slave_p1.c: 133:     INTCONbits.RBIF = 0;
+[e = . . _INTCONbits 0 0 -> -> 0 `i `uc ]
+"135
+[; ;main_slave_p1.c: 135:     return;
+[e $UE 150  ]
+"136
+[; ;main_slave_p1.c: 136: }
+[e :UE 150 ]
 }

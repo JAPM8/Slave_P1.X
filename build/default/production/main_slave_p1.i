@@ -2662,28 +2662,6 @@ extern __bank0 __bit __timeout;
 void int_osc_MHz(uint8_t freq);
 # 40 "main_slave_p1.c" 2
 
-# 1 "./USART.h" 1
-# 12 "./USART.h"
-void USART_set(const unsigned long int baudrate);
-void USART_send(const char data);
-void USART_print(const char *string);
-char USART_read(void);
-# 41 "main_slave_p1.c" 2
-
-# 1 "./adc.h" 1
-# 14 "./adc.h"
-void adc_init(uint8_t adc_cs, uint8_t vref_plus, uint8_t vref_minus);
-# 32 "./adc.h"
-void adc_start(uint8_t channel);
-# 53 "./adc.h"
-uint16_t adc_read(void);
-
-
-
-
-void adc_ch_switch(uint8_t channels);
-# 42 "main_slave_p1.c" 2
-
 # 1 "./pwm.h" 1
 # 14 "./pwm.h"
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
@@ -2699,9 +2677,16 @@ void pwm_init (uint8_t channel);
 
 
 void pwm_duty_cycle (uint16_t duty_cycle);
-# 43 "main_slave_p1.c" 2
-# 53 "main_slave_p1.c"
-uint16_t switch_servo = 0;
+# 41 "main_slave_p1.c" 2
+
+# 1 "./USART.h" 1
+# 12 "./USART.h"
+void USART_set(const unsigned long int baudrate);
+void USART_send(const char data);
+void USART_print(const char *string);
+# 42 "main_slave_p1.c" 2
+# 54 "main_slave_p1.c"
+uint16_t switch_servo = 0, last_mov = 5;
 
 
 
@@ -2730,7 +2715,6 @@ void __attribute__((picinterrupt(("")))) slave(void){
 void main(void) {
     setup();
     while(1){
-
         servo(switch_servo);
     }
     return;
@@ -2746,6 +2730,13 @@ void servo(unsigned short mov){
     else{
         pwm_duty_cycle(31);
     }
+
+    if (mov != last_mov){
+        last_mov = mov;
+        USART_send((('M')<<1) + !mov);
+    }
+
+    return;
 }
 
 
@@ -2755,19 +2746,19 @@ void setup(void){
     int_osc_MHz(1);
 
 
-    ANSEL = 0x01;
+    ANSEL = 0;
     ANSELH = 0;
 
-    TRISAbits.TRISA0 = 1;
 
     TRISBbits.TRISB0 = 0;
     PORTBbits.RB0 = 0;
     TRISBbits.TRISB1 = 1;
+    PORTBbits.RB1 = 0;
     OPTION_REGbits.nRBPU = 0;
-    WPUBbits.WPUB = 2;
+    WPUBbits.WPUB = 0x02;
 
-    USART_set(9600);
     pwm_init(1);
+    USART_set(9600);
 
 
     INTCONbits.GIE = 1;

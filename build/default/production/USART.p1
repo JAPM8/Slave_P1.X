@@ -58,23 +58,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "1069
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1069: extern volatile RCSTAbits_t RCSTAbits __attribute__((address(0x018)));
 [v _RCSTAbits `VS36 ~T0 @X0 0 e@24 ]
-"1709
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1709:     struct {
-[s S63 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S63 . TMR1IE TMR2IE CCP1IE SSPIE TXIE RCIE ADIE ]
-"1708
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1708: typedef union {
-[u S62 `S63 1 ]
-[n S62 . . ]
-"1719
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1719: extern volatile PIE1bits_t PIE1bits __attribute__((address(0x08C)));
-[v _PIE1bits `VS62 ~T0 @X0 0 e@140 ]
 "1134
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1134: extern volatile unsigned char TXREG __attribute__((address(0x019)));
 [v _TXREG `Vuc ~T0 @X0 0 e@25 ]
-"1141
-[; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 1141: extern volatile unsigned char RCREG __attribute__((address(0x01A)));
-[v _RCREG `Vuc ~T0 @X0 0 e@26 ]
 "55 C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f887.h: 55: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -322,121 +308,96 @@ Version 4.0 HI-TECH Software Intermediate Code
 "13
 [; ;USART.c: 13: {
 [f ]
-"15
-[; ;USART.c: 15:     TXSTAbits.BRGH = 1;
+"14
+[; ;USART.c: 14:     TXSTAbits.BRGH = 1;
 [e = . . _TXSTAbits 0 2 -> -> 1 `i `uc ]
-"16
-[; ;USART.c: 16:     BAUDCTLbits.BRG16 = 1;
+"15
+[; ;USART.c: 15:     BAUDCTLbits.BRG16 = 1;
 [e = . . _BAUDCTLbits 0 3 -> -> 1 `i `uc ]
-"17
-[; ;USART.c: 17:     SPBRGH = 0;
+"16
+[; ;USART.c: 16:     SPBRGH = 0;
 [e = _SPBRGH -> -> 0 `i `uc ]
-"18
-[; ;USART.c: 18:     SPBRG = (1000000 - baudrate * 4) / (baudrate * 4);
+"17
+[; ;USART.c: 17:     SPBRG = (1000000 - baudrate * 4) / (baudrate * 4);
 [e = _SPBRG -> / - -> -> 1000000 `l `ul * _baudrate -> -> -> 4 `i `l `ul * _baudrate -> -> -> 4 `i `l `ul `uc ]
-"19
-[; ;USART.c: 19:     TXSTAbits.SYNC = 0;
+"18
+[; ;USART.c: 18:     TXSTAbits.SYNC = 0;
 [e = . . _TXSTAbits 0 4 -> -> 0 `i `uc ]
-"20
-[; ;USART.c: 20:     RCSTAbits.SPEN = 1;
+"19
+[; ;USART.c: 19:     RCSTAbits.SPEN = 1;
 [e = . . _RCSTAbits 0 7 -> -> 1 `i `uc ]
-"23
-[; ;USART.c: 23:     RCSTAbits.RX9 = 0;
-[e = . . _RCSTAbits 0 6 -> -> 0 `i `uc ]
-"24
-[; ;USART.c: 24:     TXSTAbits.TX9 = 0;
+"22
+[; ;USART.c: 22:     TXSTAbits.TX9 = 0;
 [e = . . _TXSTAbits 0 6 -> -> 0 `i `uc ]
-"26
-[; ;USART.c: 26:     TXSTAbits.TXEN = 1;
+"24
+[; ;USART.c: 24:     TXSTAbits.TXEN = 1;
 [e = . . _TXSTAbits 0 5 -> -> 1 `i `uc ]
-"27
-[; ;USART.c: 27:     RCSTAbits.CREN = 1;
-[e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
-"29
-[; ;USART.c: 29:     PIE1bits.RCIE = 1;
-[e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
-"30
-[; ;USART.c: 30: }
+"25
+[; ;USART.c: 25: }
 [e :UE 138 ]
 }
-"32
-[; ;USART.c: 32: void USART_send(const char data)
+"27
+[; ;USART.c: 27: void USART_send(const char data)
 [v _USART_send `(v ~T0 @X0 1 ef1`Cuc ]
-"33
-[; ;USART.c: 33: {
+"28
+[; ;USART.c: 28: {
 {
 [e :U _USART_send ]
-"32
-[; ;USART.c: 32: void USART_send(const char data)
+"27
+[; ;USART.c: 27: void USART_send(const char data)
 [v _data `Cuc ~T0 @X0 1 r1 ]
-"33
-[; ;USART.c: 33: {
+"28
+[; ;USART.c: 28: {
 [f ]
-"34
-[; ;USART.c: 34:     while(!TXSTAbits.TRMT);
+"29
+[; ;USART.c: 29:     while(!TXSTAbits.TRMT);
 [e $U 140  ]
 [e :U 141 ]
 [e :U 140 ]
 [e $ ! != -> . . _TXSTAbits 0 1 `i -> 0 `i 141  ]
 [e :U 142 ]
-"35
-[; ;USART.c: 35:     TXREG = data;
+"30
+[; ;USART.c: 30:     TXREG = data;
 [e = _TXREG -> _data `uc ]
-"36
-[; ;USART.c: 36: }
+"31
+[; ;USART.c: 31: }
 [e :UE 139 ]
 }
-"38
-[; ;USART.c: 38: void USART_print(const char *string)
+"33
+[; ;USART.c: 33: void USART_print(const char *string)
 [v _USART_print `(v ~T0 @X0 1 ef1`*Cuc ]
-"39
-[; ;USART.c: 39: {
+"34
+[; ;USART.c: 34: {
 {
 [e :U _USART_print ]
-"38
-[; ;USART.c: 38: void USART_print(const char *string)
+"33
+[; ;USART.c: 33: void USART_print(const char *string)
 [v _string `*Cuc ~T0 @X0 1 r1 ]
-"39
-[; ;USART.c: 39: {
+"34
+[; ;USART.c: 34: {
 [f ]
-"40
-[; ;USART.c: 40:     for(int i = 0; string[i] != '\0'; i++)
+"35
+[; ;USART.c: 35:     for(int i = 0; string[i] != '\0'; i++)
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
 [e $U 147  ]
 [e :U 144 ]
-"41
-[; ;USART.c: 41:     {
+"36
+[; ;USART.c: 36:     {
 {
-"42
-[; ;USART.c: 42:         USART_send(string[i]);
+"37
+[; ;USART.c: 37:         USART_send(string[i]);
 [e ( _USART_send (1 *U + _string * -> _i `x -> -> # *U _string `i `x ]
-"43
-[; ;USART.c: 43:     }
+"38
+[; ;USART.c: 38:     }
 }
 [e ++ _i -> 1 `i ]
 [e :U 147 ]
 [e $ != -> *U + _string * -> _i `x -> -> # *U _string `i `x `ui -> 0 `ui 144  ]
 [e :U 145 ]
 }
-"44
-[; ;USART.c: 44: }
+"39
+[; ;USART.c: 39: }
 [e :UE 143 ]
-}
-"46
-[; ;USART.c: 46: char USART_read(void)
-[v _USART_read `(uc ~T0 @X0 1 ef ]
-"47
-[; ;USART.c: 47: {
-{
-[e :U _USART_read ]
-[f ]
-"48
-[; ;USART.c: 48:     return RCREG;
-[e ) -> _RCREG `uc ]
-[e $UE 148  ]
-"49
-[; ;USART.c: 49: }
-[e :UE 148 ]
 }

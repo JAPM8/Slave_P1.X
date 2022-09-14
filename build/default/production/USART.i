@@ -2637,7 +2637,6 @@ extern __bank0 __bit __timeout;
 void USART_set(const unsigned long int baudrate);
 void USART_send(const char data);
 void USART_print(const char *string);
-char USART_read(void);
 # 8 "USART.c" 2
 
 
@@ -2645,7 +2644,6 @@ char USART_read(void);
 
 void USART_set(const unsigned long int baudrate)
 {
-
     TXSTAbits.BRGH = 1;
     BAUDCTLbits.BRG16 = 1;
     SPBRGH = 0;
@@ -2654,13 +2652,9 @@ void USART_set(const unsigned long int baudrate)
     RCSTAbits.SPEN = 1;
 
 
-    RCSTAbits.RX9 = 0;
     TXSTAbits.TX9 = 0;
 
     TXSTAbits.TXEN = 1;
-    RCSTAbits.CREN = 1;
-
-    PIE1bits.RCIE = 1;
 }
 
 void USART_send(const char data)
@@ -2675,9 +2669,4 @@ void USART_print(const char *string)
     {
         USART_send(string[i]);
     }
-}
-
-char USART_read(void)
-{
-    return RCREG;
 }

@@ -38,9 +38,10 @@
 #include <pic16f887.h>
 #include <stdint.h>
 #include "osc.h"
-#include "USART.h"
-#include "adc.h"
 #include "pwm.h"
+#include "USART.h"
+//#include "adc.h"
+
 
 /*
  * Constantes
@@ -50,7 +51,7 @@
 /*
  * Variables
  */
-uint16_t switch_servo = 0;
+uint16_t switch_servo = 0, last_mov = 5;
 /*
  * Prototipos de Función
  */
@@ -62,7 +63,7 @@ void servo(unsigned short mov); //Función para accionar motor Servo en base a mo
 void __interrupt() slave(void){
     if(INTCONbits.RBIF){ // Interrucpción PORTB
         if(!PORTBbits.RB1){  // ¿Sensor de movimiento en RB1?
-            switch_servo = 1; // Si hay movimiento -> Abrir
+            switch_servo = 1; // Si hay movimiento -> Abrir       
         }
         else{
             switch_servo = 0; // Si ya no hay movimiento -> Cerrar
@@ -79,7 +80,6 @@ void __interrupt() slave(void){
 void main(void) {
     setup();
     while(1){
-        //USART_send('A');
         servo(switch_servo);
     }
     return;
@@ -94,7 +94,14 @@ void servo(unsigned short mov){
     }
     else{
         pwm_duty_cycle(31); // PWM -> 0°
-    }        
+    }
+    
+    if (mov != last_mov){ //Se actualiza sensor solo si hay cambio
+        last_mov = mov;
+        USART_send((('M')<<1) + !mov); //Envio codificado de sensor de movimiento
+    }
+    
+    return;
 }
 
 /*
@@ -104,19 +111,19 @@ void setup(void){
     int_osc_MHz(1); //OSC a 1 MHz        
     
     //I/O DIGITALES - Excepto RA0
-    ANSEL = 0x01; //RA0 -> Input analógico
+    ANSEL = 0; //RA0 -> Input analógico
     ANSELH = 0;
-    
-    TRISAbits.TRISA0 = 1; //RA0 -> Input 
-    
+    //TRISAbits.TRISA0 = 1; //RA0 -> Input 
+
     TRISBbits.TRISB0 = 0; //RB0 -> Output
     PORTBbits.RB0 = 0;  //RB0 -> Clear
-    TRISBbits.TRISB1 = 1; //RB1 -> Input       
+    TRISBbits.TRISB1 = 1; //RB1 -> Input   
+    PORTBbits.RB1 = 0;  //RB1 -> Clear
     OPTION_REGbits.nRBPU = 0; //Enable all pull ups
-    WPUBbits.WPUB = 2; //RB1 Pull-up -> Enable
+    WPUBbits.WPUB = 0x02; //RB1 Pull-up -> Enable
     
-    USART_set(9600); //Inicialización com. UART a BR 9600
     pwm_init(1); //CCP1 -> Init
+    USART_set(9600); //Inicialización com. UART a BR 9600
     
     //Interrupciones
     INTCONbits.GIE = 1; //Int. Globales
