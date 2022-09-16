@@ -37,6 +37,7 @@
 #include <xc.h>
 #include <pic16f887.h>
 #include <stdint.h>
+#include <math.h>
 #include "osc.h"
 #include "pwm.h"
 #include "USART.h"
@@ -57,13 +58,14 @@
  * Variables
  */
 uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
+float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
 /*
  * Prototipos de Función
  */
 void setup(void); //Función para configuraciones
 void servo(unsigned short mov); //Función para accionar motor Servo en base a movimiento
-unsigned short map(uint16_t  val, uint8_t  in_min, uint16_t in_max, 
-                   unsigned short out_min, unsigned short out_max);
+short map(uint16_t  val, uint16_t  in_min, uint16_t in_max, 
+          short out_min, short out_max);
 void motor_dc(int temp);
 /*
  * Interrupciones
@@ -80,7 +82,12 @@ void __interrupt() slave(void){
     }
     if(PIR1bits.ADIF){                      
         if(ADCON0bits.CHS == 0){ // Interrupción AN0
-            TEMP_POT = map(adc_read(), IN_MIN, IN_MAX, OUT_MIN, OUT_MAX);            
+            TEMP_POT = map(adc_read(), IN_MIN, 650, -55, 125);
+            
+            R2 = R1 * ((float)(1023/TEMP_POT)-1);
+            logR2 = log(R2);
+            TC = (uint8_t)(273.15 - (1.0 / (A + B * logR2 + C * logR2 * logR2 * logR2)));
+            PORTD = TC;
         }
         PIR1bits.ADIF = 0;  // Flag Int. ADC -> Clear
     }
@@ -95,7 +102,7 @@ void main(void) {
     setup();
     while(1){
         adc_ch_switch(1); //CH1 -> Inicialización de conversión
-        motor_dc(TEMP_POT);
+        motor_dc(TC);
         servo(switch_servo);
     }
     return;
@@ -105,12 +112,12 @@ void main(void) {
  * Funciones
  */
 
-unsigned short map(uint16_t x, uint8_t x0, uint16_t x1, 
-            unsigned short y0, unsigned short y1){
-    return (unsigned short)(y0+((float)(y1-y0)/(x1-x0))*(x-x0));
+short map(uint16_t x, uint16_t x0, uint16_t x1, 
+          short y0, short y1){
+    return (short)(y0+((float)(y1-y0)/(x1-x0))*(x-x0));
 }
 void motor_dc(int temp){
-    if(temp >= 23){
+    if(temp >= 22){
         PORTBbits.RB0 = 1; // Se activa ventilador
     }
     else{
@@ -119,7 +126,7 @@ void motor_dc(int temp){
     
     if (temp != OLD_TEMP){
         OLD_TEMP = temp;
-        USART_send(temp+128);
+        USART_send(temp);
     }
     return;
 }
@@ -160,6 +167,9 @@ void setup(void){
     pwm_init(1); //CCP1 -> Init
     USART_set(9600); //Inicialización com. UART a BR 9600
     adc_init(0,0,0); // -> FOSC/2 , V_DD, V_SS, justificado a la izquierda (comunista xdd)
+    
+    TRISD = 0;
+    PORTD = 0;
     
     //Interrupciones
     INTCONbits.GIE = 1; //Int. Globales

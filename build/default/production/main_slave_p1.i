@@ -2653,6 +2653,41 @@ extern __bank0 __bit __timeout;
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
 # 39 "main_slave_p1.c" 2
 
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\math.h" 1 3
+
+
+
+# 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__unsupported.h" 1 3
+# 4 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\math.h" 2 3
+# 30 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\math.h" 3
+extern double fabs(double);
+extern double floor(double);
+extern double ceil(double);
+extern double modf(double, double *);
+extern double sqrt(double);
+extern double atof(const char *);
+extern double sin(double) ;
+extern double cos(double) ;
+extern double tan(double) ;
+extern double asin(double) ;
+extern double acos(double) ;
+extern double atan(double);
+extern double atan2(double, double) ;
+extern double log(double);
+extern double log10(double);
+extern double pow(double, double) ;
+extern double exp(double) ;
+extern double sinh(double) ;
+extern double cosh(double) ;
+extern double tanh(double);
+extern double eval_poly(double, const double *, int);
+extern double frexp(double, int *);
+extern double ldexp(double, int);
+extern double fmod(double, double);
+extern double trunc(double);
+extern double round(double);
+# 40 "main_slave_p1.c" 2
+
 # 1 "./osc.h" 1
 # 14 "./osc.h"
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
@@ -2660,7 +2695,7 @@ extern __bank0 __bit __timeout;
 
 
 void int_osc_MHz(uint8_t freq);
-# 40 "main_slave_p1.c" 2
+# 41 "main_slave_p1.c" 2
 
 # 1 "./pwm.h" 1
 # 14 "./pwm.h"
@@ -2677,14 +2712,14 @@ void pwm_init (uint8_t channel);
 
 
 void pwm_duty_cycle (uint16_t duty_cycle);
-# 41 "main_slave_p1.c" 2
+# 42 "main_slave_p1.c" 2
 
 # 1 "./USART.h" 1
 # 12 "./USART.h"
 void USART_set(const unsigned long int baudrate);
 void USART_send(const char data);
 void USART_print(const char *string);
-# 42 "main_slave_p1.c" 2
+# 43 "main_slave_p1.c" 2
 
 # 1 "./adc.h" 1
 # 14 "./adc.h"
@@ -2698,16 +2733,17 @@ uint16_t adc_read(void);
 
 
 void adc_ch_switch(uint8_t channels);
-# 43 "main_slave_p1.c" 2
-# 59 "main_slave_p1.c"
+# 44 "main_slave_p1.c" 2
+# 60 "main_slave_p1.c"
 uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
+float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
 
 
 
 void setup(void);
 void servo(unsigned short mov);
-unsigned short map(uint16_t val, uint8_t in_min, uint16_t in_max,
-                   unsigned short out_min, unsigned short out_max);
+short map(uint16_t val, uint16_t in_min, uint16_t in_max,
+          short out_min, short out_max);
 void motor_dc(int temp);
 
 
@@ -2724,7 +2760,12 @@ void __attribute__((picinterrupt(("")))) slave(void){
     }
     if(PIR1bits.ADIF){
         if(ADCON0bits.CHS == 0){
-            TEMP_POT = map(adc_read(), 0, 1023, 0, 45);
+            TEMP_POT = map(adc_read(), 0, 650, -55, 125);
+
+            R2 = R1 * ((float)(1023/TEMP_POT)-1);
+            logR2 = log(R2);
+            TC = (uint8_t)(273.15 - (1.0 / (A + B * logR2 + C * logR2 * logR2 * logR2)));
+            PORTD = TC;
         }
         PIR1bits.ADIF = 0;
     }
@@ -2739,7 +2780,7 @@ void main(void) {
     setup();
     while(1){
         adc_ch_switch(1);
-        motor_dc(TEMP_POT);
+        motor_dc(TC);
         servo(switch_servo);
     }
     return;
@@ -2749,12 +2790,12 @@ void main(void) {
 
 
 
-unsigned short map(uint16_t x, uint8_t x0, uint16_t x1,
-            unsigned short y0, unsigned short y1){
-    return (unsigned short)(y0+((float)(y1-y0)/(x1-x0))*(x-x0));
+short map(uint16_t x, uint16_t x0, uint16_t x1,
+          short y0, short y1){
+    return (short)(y0+((float)(y1-y0)/(x1-x0))*(x-x0));
 }
 void motor_dc(int temp){
-    if(temp >= 23){
+    if(temp >= 22){
         PORTBbits.RB0 = 1;
     }
     else{
@@ -2763,7 +2804,7 @@ void motor_dc(int temp){
 
     if (temp != OLD_TEMP){
         OLD_TEMP = temp;
-        USART_send(temp+128);
+        USART_send(temp);
     }
     return;
 }
@@ -2804,6 +2845,9 @@ void setup(void){
     pwm_init(1);
     USART_set(9600);
     adc_init(0,0,0);
+
+    TRISD = 0;
+    PORTD = 0;
 
 
     INTCONbits.GIE = 1;
