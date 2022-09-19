@@ -3,4 +3,5 @@ main_slave_p1.c  \
 osc.h  \
 pwm.h  \
 USART.h  \
-adc.h 
+adc.h  \
+I2C.h 

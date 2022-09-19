@@ -42,21 +42,19 @@
 #include "pwm.h"
 #include "USART.h"
 #include "adc.h"
-
+#include "I2C.h"
+#include "tmr0.h"
 
 /*
  * Constantes
  */
 #define _XTAL_FREQ 1000000 //Osc a 1 MHz
 
-#define IN_MIN 0                
-#define IN_MAX 1023 
-#define OUT_MIN 0
-#define OUT_MAX 45
 
 /*
  * Variables
  */
+uint8_t min = 0, hrs = 0, last_min = 61, last_hrs = 30;
 uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
 float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
 /*
@@ -67,6 +65,9 @@ void servo(unsigned short mov); //Función para accionar motor Servo en base a mo
 short map(uint16_t  val, uint16_t  in_min, uint16_t in_max, 
           short out_min, short out_max);
 void motor_dc(int temp);
+uint8_t bcd_dec(uint8_t no);
+void RTC_read(void);
+
 /*
  * Interrupciones
  */
@@ -82,12 +83,12 @@ void __interrupt() slave(void){
     }
     if(PIR1bits.ADIF){                      
         if(ADCON0bits.CHS == 0){ // Interrupción AN0
-            TEMP_POT = map(adc_read(), IN_MIN, 650, -55, 125);
+            TEMP_POT = map(adc_read(), 0, 650, -55, 125);
             
+            //Ecuación Stein-Hart psra conversión a temperatura de NTC
             R2 = R1 * ((float)(1023/TEMP_POT)-1);
             logR2 = log(R2);
             TC = (uint8_t)(273.15 - (1.0 / (A + B * logR2 + C * logR2 * logR2 * logR2)));
-            PORTD = TC;
         }
         PIR1bits.ADIF = 0;  // Flag Int. ADC -> Clear
     }
@@ -104,6 +105,7 @@ void main(void) {
         adc_ch_switch(1); //CH1 -> Inicialización de conversión
         motor_dc(TC);
         servo(switch_servo);
+        RTC_read();
     }
     return;
 }
@@ -126,7 +128,7 @@ void motor_dc(int temp){
     
     if (temp != OLD_TEMP){
         OLD_TEMP = temp;
-        USART_send(temp);
+        USART_send(160 + (temp & 31)); //Envio codificado de sensor de temperatura (se limita hasta 31 °C)        
     }
     return;
 }
@@ -140,10 +142,34 @@ void servo(unsigned short mov){
     
     if (mov != last_mov){ //Se actualiza sensor solo si hay cambio
         last_mov = mov;
-        USART_send((('M')<<1) + !mov); //Envio codificado de sensor de movimiento
+        USART_send(!mov + 128); //Envio codificado de sensor de movimiento
     }
-    
     return;
+}
+void RTC_read(void){
+    I2C_Master_Start(); //Start condition
+    I2C_Master_Write(0xD0); // RTC ADDRESS
+    I2C_Master_Write(0); // Se direcciona al registro 0
+    I2C_Master_RepeatedStart(); //Reseteo I2C
+    I2C_Master_Write(0xD1); // ADDRESS + READ BIT
+    I2C_Master_Read(1); //(Read + Acknowledge) de segundos
+    min = bcd_dec(I2C_Master_Read(1)); //(Read + Acknowledge) Minutos -> BCD a DEC
+    hrs = bcd_dec(I2C_Master_Read(0)); //(Read + No Acknowledge) Horas -> BCD a DEC
+    I2C_Master_Stop(); //Stop condition
+    __delay_ms(50);
+    
+    if (min != last_min){
+        last_min = min;
+        USART_send(min); //Envio de minutos
+    }
+    if (hrs != last_hrs){
+        last_hrs = hrs;
+        USART_send(hrs + 224); //Envio codificado de horas
+    }
+    return;
+}
+uint8_t bcd_dec(uint8_t no){
+    return ((no >> 4) * 10 + (no & 0x0F));
 }
 
 /*
@@ -161,12 +187,17 @@ void setup(void){
     PORTBbits.RB0 = 0;  //RB0 -> Clear
     TRISBbits.TRISB1 = 1; //RB1 -> Input   
     PORTBbits.RB1 = 0;  //RB1 -> Clear
+    //RB2 primer botón
+    //RB7
+    //RD1 STEP
+    //RD2 DIR
     OPTION_REGbits.nRBPU = 0; //Enable all pull ups
     WPUBbits.WPUB = 0x02; //RB1 Pull-up -> Enable
     
     pwm_init(1); //CCP1 -> Init
     USART_set(9600); //Inicialización com. UART a BR 9600
     adc_init(0,0,0); // -> FOSC/2 , V_DD, V_SS, justificado a la izquierda (comunista xdd)
+    I2C_Master_Init(100000); //Se inicia I2C Master con 100KHz clock
     
     TRISD = 0;
     PORTD = 0;
