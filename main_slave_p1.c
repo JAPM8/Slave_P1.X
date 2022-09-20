@@ -54,7 +54,7 @@
 /*
  * Variables
  */
-uint8_t min = 0, hrs = 0, last_min = 61, last_hrs = 30;
+uint8_t min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 0, on = 0;
 uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
 float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
 /*
@@ -67,17 +67,36 @@ short map(uint16_t  val, uint16_t  in_min, uint16_t in_max,
 void motor_dc(int temp);
 uint8_t bcd_dec(uint8_t no);
 void RTC_read(void);
-
+void pulse_step(unsigned short bt, unsigned short signal);
 /*
  * Interrupciones
  */
 void __interrupt() slave(void){
+    if(INTCONbits.T0IF){
+        pulso = !PORTDbits.RD1; //En cada interrupción se invierte pulso de step
+        tmr0_reload(); //Reinicio TMR0
+    }
+    
     if(INTCONbits.RBIF){ // Interrucpción PORTB
         if(!PORTBbits.RB1){  // ¿Sensor de movimiento en RB1?
             switch_servo = 1; // Si hay movimiento -> Abrir       
         }
-        else{
+        else if(PORTBbits.RB1){
             switch_servo = 0; // Si ya no hay movimiento -> Cerrar
+        }
+        
+        if(!PORTBbits.RB2){  // ¿Cambio de dirección?
+            dir = 1; // Izquierda       
+        }
+        else if(PORTBbits.RB2){
+            dir = 0; // Derecha
+        }
+        
+        if(!PORTBbits.RB7){  // ¿Botón de accionar?
+            on = 1; // Accionar Stepper       
+        }
+        else if(PORTBbits.RB7){
+            on = 0; // Detener Stepper
         }
         INTCONbits.RBIF = 0; // Flag Int. Portb -> Clear
     }
@@ -102,9 +121,11 @@ void __interrupt() slave(void){
 void main(void) {
     setup();
     while(1){
+        pulse_step(on, pulso);
         adc_ch_switch(1); //CH1 -> Inicialización de conversión
         motor_dc(TC);
         servo(switch_servo);
+        dir_step(dir);
         RTC_read();
     }
     return;
@@ -146,6 +167,24 @@ void servo(unsigned short mov){
     }
     return;
 }
+void pulse_step(unsigned short bt, unsigned short signal){
+    if (bt == 1){
+        PORTDbits.RD1 = signal; //Si el botón acción está presionado -> Enviar señal
+    }
+    else{
+        PORTDbits.RD1 = 0; //Si el botón no está presionado -> Forzar a 0
+    }
+    return;
+}
+void dir_step(unsigned short dir){
+    if (dir == 1){
+        PORTDbits.RD2 = 1; //Si el botón dirección está presionado -> Girar a la izquierda
+    }
+    else {
+        PORTDbits.RD2 = 0; //Si el botón dirección no está presionado -> Girar a la derecha
+    }
+    return;
+}
 void RTC_read(void){
     I2C_Master_Start(); //Start condition
     I2C_Master_Write(0xD0); // RTC ADDRESS
@@ -156,7 +195,6 @@ void RTC_read(void){
     min = bcd_dec(I2C_Master_Read(1)); //(Read + Acknowledge) Minutos -> BCD a DEC
     hrs = bcd_dec(I2C_Master_Read(0)); //(Read + No Acknowledge) Horas -> BCD a DEC
     I2C_Master_Stop(); //Stop condition
-    __delay_ms(50);
     
     if (min != last_min){
         last_min = min;
@@ -181,32 +219,39 @@ void setup(void){
     //I/O DIGITALES - Excepto RA0
     ANSEL = 0x01; //RA0 -> Input analógico
     ANSELH = 0;
+    
     TRISAbits.TRISA0 = 1; //RA0 -> Input 
 
     TRISBbits.TRISB0 = 0; //RB0 -> Output
     PORTBbits.RB0 = 0;  //RB0 -> Clear
     TRISBbits.TRISB1 = 1; //RB1 -> Input   
     PORTBbits.RB1 = 0;  //RB1 -> Clear
-    //RB2 primer botón
-    //RB7
-    //RD1 STEP
-    //RD2 DIR
+    TRISBbits.TRISB2 = 1; //RB2 -> Input
+    PORTBbits.RB2 = 0;  //RB2 -> Clear
+    TRISBbits.TRISB7 = 1; //RB7 -> Input
+    PORTBbits.RB7 = 0;  //RB7 -> Clear
     OPTION_REGbits.nRBPU = 0; //Enable all pull ups
-    WPUBbits.WPUB = 0x02; //RB1 Pull-up -> Enable
+    WPUBbits.WPUB = 0x86; //RB1, RB2 y RB7 Pull-up -> Enable
+    
+    TRISDbits.TRISD1 = 0; //RD0 -> Output
+    PORTDbits.RD1 = 0; // RD0 -> Clear
+    TRISDbits.TRISD2 = 0; //RD1 -> Output
+    PORTDbits.RD1 = 0; // RD1 -> Clear
     
     pwm_init(1); //CCP1 -> Init
     USART_set(9600); //Inicialización com. UART a BR 9600
     adc_init(0,0,0); // -> FOSC/2 , V_DD, V_SS, justificado a la izquierda (comunista xdd)
-    I2C_Master_Init(100000); //Se inicia I2C Master con 100KHz clock
-    
-    TRISD = 0;
-    PORTD = 0;
+    tmr0_init(16); //Inicialización TMR0 con PSA de 16
+    tmr0_reload(); //TMR a 0.5 ms
+    I2C_Master_Init(100000); //Se inicia I2C Master con 100KHz clock    
     
     //Interrupciones
     INTCONbits.GIE = 1; //Int. Globales
     INTCONbits.PEIE = 1; //Int. de periféricos
     INTCONbits.RBIE = 1; // Int. PORTB -> Enable
     IOCBbits.IOCB1 = 1; // IOCB RB1 -> Enable
+    IOCBbits.IOCB2 = 1; // IOCB RB2 -> Enable
+    IOCBbits.IOCB7 = 1; // IOCB RB7 -> Enable
     INTCONbits.RBIF = 0; // Flag Int. PORTB -> Clear
     
     return;

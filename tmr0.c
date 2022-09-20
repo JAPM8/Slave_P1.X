@@ -52,11 +52,9 @@ void tmr0_init(uint8_t prescaler){
     }
     INTCONbits.T0IE = 1;                // Habilitar interrupciones de TMR0
     INTCONbits.T0IF = 0;                // Limpiar la bandera de TMR0
-    return;
 }
 
 void tmr0_reload(void){
     TMR0 = _tmr0_value;                 // Valor de retraso  
     INTCONbits.T0IF = 0;                // Limpiar la bandera de TMR0
-    return;
 }

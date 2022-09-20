@@ -4,4 +4,5 @@ osc.h  \
 pwm.h  \
 USART.h  \
 adc.h  \
-I2C.h 
+I2C.h  \
+tmr0.h 

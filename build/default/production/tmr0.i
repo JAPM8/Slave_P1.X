@@ -1,4 +1,4 @@
-# 1 "main_slave_p1.c"
+# 1 "tmr0.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,23 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "main_slave_p1.c" 2
-# 16 "main_slave_p1.c"
-#pragma config FOSC = INTRC_NOCLKOUT
-#pragma config WDTE = OFF
-#pragma config PWRTE = OFF
-#pragma config MCLRE = OFF
-#pragma config CP = OFF
-#pragma config CPD = OFF
-#pragma config BOREN = OFF
-#pragma config IESO = OFF
-#pragma config FCMEN = OFF
-#pragma config LVP = OFF
-
-
-#pragma config BOR4V = BOR21V
-#pragma config WRT = OFF
-
+# 1 "tmr0.c" 2
 
 
 
@@ -2647,119 +2631,10 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
-# 37 "main_slave_p1.c" 2
-
+# 8 "tmr0.c" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 39 "main_slave_p1.c" 2
-
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\math.h" 1 3
-
-
-
-# 1 "C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__unsupported.h" 1 3
-# 4 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\math.h" 2 3
-# 30 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\math.h" 3
-extern double fabs(double);
-extern double floor(double);
-extern double ceil(double);
-extern double modf(double, double *);
-extern double sqrt(double);
-extern double atof(const char *);
-extern double sin(double) ;
-extern double cos(double) ;
-extern double tan(double) ;
-extern double asin(double) ;
-extern double acos(double) ;
-extern double atan(double);
-extern double atan2(double, double) ;
-extern double log(double);
-extern double log10(double);
-extern double pow(double, double) ;
-extern double exp(double) ;
-extern double sinh(double) ;
-extern double cosh(double) ;
-extern double tanh(double);
-extern double eval_poly(double, const double *, int);
-extern double frexp(double, int *);
-extern double ldexp(double, int);
-extern double fmod(double, double);
-extern double trunc(double);
-extern double round(double);
-# 40 "main_slave_p1.c" 2
-
-# 1 "./osc.h" 1
-# 14 "./osc.h"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 14 "./osc.h" 2
-
-
-void int_osc_MHz(uint8_t freq);
-# 41 "main_slave_p1.c" 2
-
-# 1 "./pwm.h" 1
-# 14 "./pwm.h"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 14 "./pwm.h" 2
-
-
-void pwm_init (uint8_t channel);
-
-
-
-
-
-
-
-void pwm_duty_cycle (uint16_t duty_cycle);
-# 42 "main_slave_p1.c" 2
-
-# 1 "./USART.h" 1
-# 12 "./USART.h"
-void USART_set(const unsigned long int baudrate);
-void USART_send(const char data);
-void USART_print(const char *string);
-# 43 "main_slave_p1.c" 2
-
-# 1 "./adc.h" 1
-# 14 "./adc.h"
-void adc_init(uint8_t adc_cs, uint8_t vref_plus, uint8_t vref_minus);
-# 32 "./adc.h"
-void adc_start(uint8_t channel);
-# 53 "./adc.h"
-uint16_t adc_read(void);
-
-
-
-
-void adc_ch_switch(uint8_t channels);
-# 44 "main_slave_p1.c" 2
-
-# 1 "./I2C.h" 1
-# 20 "./I2C.h"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
-# 20 "./I2C.h" 2
-
-
-
-
-
-
-
-void I2C_Master_Init(const unsigned long c);
-
-void I2C_Master_Wait(void);
-
-void I2C_Master_Start(void);
-
-void I2C_Master_RepeatedStart(void);
-
-void I2C_Master_Stop(void);
-
-void I2C_Master_Write(unsigned d);
-
-unsigned short I2C_Master_Read(unsigned short a);
-# 45 "main_slave_p1.c" 2
+# 9 "tmr0.c" 2
 
 # 1 "./tmr0.h" 1
 # 13 "./tmr0.h"
@@ -2775,208 +2650,55 @@ unsigned short I2C_Master_Read(unsigned short a);
 void tmr0_init(uint8_t prescaler);
 # 34 "./tmr0.h"
 void tmr0_reload(void);
-# 46 "main_slave_p1.c" 2
-# 57 "main_slave_p1.c"
-uint8_t min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 0, on = 0;
-uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
-float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
+# 10 "tmr0.c" 2
 
 
 
-void setup(void);
-void servo(unsigned short mov);
-short map(uint16_t val, uint16_t in_min, uint16_t in_max,
-          short out_min, short out_max);
-void motor_dc(int temp);
-uint8_t bcd_dec(uint8_t no);
-void RTC_read(void);
-void pulse_step(unsigned short bt, unsigned short signal);
-void dir_step(unsigned short dir);
-
-
-
-void __attribute__((picinterrupt(("")))) slave(void){
-    if(INTCONbits.T0IF){
-        pulso = !PORTDbits.RD1;
-        tmr0_reload();
+void tmr0_init(uint8_t prescaler){
+    OPTION_REGbits.T0CS = 0;
+    if(prescaler != 0){
+       OPTION_REGbits.PSA = 0;
     }
-
-    if(INTCONbits.RBIF){
-        if(!PORTBbits.RB1){
-            switch_servo = 1;
-        }
-        else if(PORTBbits.RB1){
-            switch_servo = 0;
-        }
-
-        if(!PORTBbits.RB2){
-            dir = 1;
-        }
-        else if(PORTBbits.RB2){
-            dir = 0;
-        }
-
-        if(!PORTBbits.RB7){
-            on = 1;
-        }
-        else if(PORTBbits.RB7){
-            on = 0;
-        }
-        INTCONbits.RBIF = 0;
+    else if (prescaler == 0){
+        OPTION_REGbits.PSA = 1;
     }
-    if(PIR1bits.ADIF){
-        if(ADCON0bits.CHS == 0){
-            TEMP_POT = map(adc_read(), 0, 650, -55, 125);
-
-
-            R2 = R1 * ((float)(1023/TEMP_POT)-1);
-            logR2 = log(R2);
-            TC = (uint8_t)(273.15 - (1.0 / (A + B * logR2 + C * logR2 * logR2 * logR2)));
-        }
-        PIR1bits.ADIF = 0;
+    switch(prescaler){
+        case 0:
+            OPTION_REGbits.PS = 0b000;
+            break;
+        case 2:
+            OPTION_REGbits.PS = 0b000;
+            break;
+        case 4:
+            OPTION_REGbits.PS = 0b001;
+            break;
+        case 8:
+            OPTION_REGbits.PS = 0b010;
+            break;
+        case 16:
+            OPTION_REGbits.PS = 0b011;
+            break;
+        case 32:
+            OPTION_REGbits.PS = 0b100;
+            break;
+        case 64:
+            OPTION_REGbits.PS = 0b101;
+            break;
+        case 128:
+            OPTION_REGbits.PS = 0b110;
+            break;
+        case 255:
+            OPTION_REGbits.PS = 0b111;
+            break;
+        default:
+            OPTION_REGbits.PS = 0b000;
+            break;
     }
-    return;
+    INTCONbits.T0IE = 1;
+    INTCONbits.T0IF = 0;
 }
 
-
-
-
-
-void main(void) {
-    setup();
-    while(1){
-        pulse_step(on, pulso);
-        adc_ch_switch(1);
-        motor_dc(TC);
-        servo(switch_servo);
-        dir_step(dir);
-        RTC_read();
-    }
-    return;
-}
-
-
-
-
-
-short map(uint16_t x, uint16_t x0, uint16_t x1,
-          short y0, short y1){
-    return (short)(y0+((float)(y1-y0)/(x1-x0))*(x-x0));
-}
-void motor_dc(int temp){
-    if(temp >= 22){
-        PORTBbits.RB0 = 1;
-    }
-    else{
-        PORTBbits.RB0 = 0;
-    }
-
-    if (temp != OLD_TEMP){
-        OLD_TEMP = temp;
-        USART_send(160 + (temp & 31));
-    }
-    return;
-}
-void servo(unsigned short mov){
-    if (mov == 1){
-        pwm_duty_cycle(94);
-    }
-    else{
-        pwm_duty_cycle(31);
-    }
-
-    if (mov != last_mov){
-        last_mov = mov;
-        USART_send(!mov + 128);
-    }
-    return;
-}
-void pulse_step(unsigned short bt, unsigned short signal){
-    if (bt == 1){
-        PORTDbits.RD1 = signal;
-    }
-    else{
-        PORTDbits.RD1 = 0;
-    }
-    return;
-}
-void dir_step(unsigned short dir){
-    if (dir == 1){
-        PORTDbits.RD2 = 1;
-    }
-    else {
-        PORTDbits.RD2 = 0;
-    }
-    return;
-}
-void RTC_read(void){
-    I2C_Master_Start();
-    I2C_Master_Write(0xD0);
-    I2C_Master_Write(0);
-    I2C_Master_RepeatedStart();
-    I2C_Master_Write(0xD1);
-    I2C_Master_Read(1);
-    min = bcd_dec(I2C_Master_Read(1));
-    hrs = bcd_dec(I2C_Master_Read(0));
-    I2C_Master_Stop();
-
-    if (min != last_min){
-        last_min = min;
-        USART_send(min);
-    }
-    if (hrs != last_hrs){
-        last_hrs = hrs;
-        USART_send(hrs + 224);
-    }
-    return;
-}
-uint8_t bcd_dec(uint8_t no){
-    return ((no >> 4) * 10 + (no & 0x0F));
-}
-
-
-
-
-void setup(void){
-    int_osc_MHz(1);
-
-
-    ANSEL = 0x01;
-    ANSELH = 0;
-
-    TRISAbits.TRISA0 = 1;
-
-    TRISBbits.TRISB0 = 0;
-    PORTBbits.RB0 = 0;
-    TRISBbits.TRISB1 = 1;
-    PORTBbits.RB1 = 0;
-    TRISBbits.TRISB2 = 1;
-    PORTBbits.RB2 = 0;
-    TRISBbits.TRISB7 = 1;
-    PORTBbits.RB7 = 0;
-    OPTION_REGbits.nRBPU = 0;
-    WPUBbits.WPUB = 0x86;
-
-    TRISDbits.TRISD1 = 0;
-    PORTDbits.RD1 = 0;
-    TRISDbits.TRISD2 = 0;
-    PORTDbits.RD1 = 0;
-
-    pwm_init(1);
-    USART_set(9600);
-    adc_init(0,0,0);
-    tmr0_init(16);
-    tmr0_reload();
-    I2C_Master_Init(100000);
-
-
-    INTCONbits.GIE = 1;
-    INTCONbits.PEIE = 1;
-    INTCONbits.RBIE = 1;
-    IOCBbits.IOCB1 = 1;
-    IOCBbits.IOCB2 = 1;
-    IOCBbits.IOCB7 = 1;
-    INTCONbits.RBIF = 0;
-
-    return;
+void tmr0_reload(void){
+    TMR0 = 178;
+    INTCONbits.T0IF = 0;
 }
