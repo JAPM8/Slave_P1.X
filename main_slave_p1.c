@@ -54,7 +54,7 @@
 /*
  * Variables
  */
-uint8_t min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 0, on = 0;
+uint8_t p = 0, min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 5;
 uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
 float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
 /*
@@ -85,20 +85,21 @@ void __interrupt() slave(void){
             switch_servo = 0; // Si ya no hay movimiento -> Cerrar
         }
         
-        if(!PORTBbits.RB2){  // ¿Cambio de dirección?
-            dir = 1; // Izquierda       
+        if(!PORTBbits.RB2){  // ¿Girar stepper a la derecha?
+            dir = 1; // Se gira stepper a la derecha
+            PORTDbits.RD2 = 1; //Si el botón está presionado -> Girar a la derecha
+            
         }
-        else if(PORTBbits.RB2){
-            dir = 0; // Derecha
-        }
-        
-        if(!PORTBbits.RB7){  // ¿Botón de accionar?
-            on = 1; // Accionar Stepper       
-        }
-        else if(PORTBbits.RB7){
-            on = 0; // Detener Stepper
+                
+        if(!PORTBbits.RB7){  // ¿Girar stepper a la izquierda?
+            dir = 0; // Se gira stepper a la izquierda  
+            PORTDbits.RD2 = 0; //Si el botón está presionado -> Girar a la izquierda
         }
         INTCONbits.RBIF = 0; // Flag Int. Portb -> Clear
+        
+        if(PORTBbits.RB2 && PORTBbits.RB7){
+            dir = 5; // Sin acción
+        }
     }
     if(PIR1bits.ADIF){                      
         if(ADCON0bits.CHS == 0){ // Interrupción AN0
@@ -121,12 +122,12 @@ void __interrupt() slave(void){
 void main(void) {
     setup();
     while(1){
-        pulse_step(on, pulso);
+        PORTDbits.RD2 = dir & 0x01; //Constantemente se actualiza dirección de stepper
+        pulse_step(dir, pulso); //Se acciona Stepper en base a la dirección del botón apachado
         adc_ch_switch(1); //CH1 -> Inicialización de conversión
-        motor_dc(TC);
-        servo(switch_servo);
-        dir_step(dir);
-        RTC_read();
+        motor_dc(TC); //Se acciona motor DC en base a temperatura
+        servo(switch_servo); //Se acciona servomotor en base a movimiento
+        RTC_read(); //Se lee mediante I2C RTC
     }
     return;
 }
@@ -169,20 +170,12 @@ void servo(unsigned short mov){
 }
 void pulse_step(unsigned short bt, unsigned short signal){
     if (bt == 1){
-        PORTDbits.RD1 = signal; //Si el botón acción está presionado -> Enviar señal
+        PORTDbits.RD1 = signal; //Si el botón acción está presionado -> Enviar señal 
     }
-    else{
-        PORTDbits.RD1 = 0; //Si el botón no está presionado -> Forzar a 0
+    else if(bt == 0){
+        PORTDbits.RD1 = signal; //Si el botón acción está presionado -> Enviar señal 
     }
-    return;
-}
-void dir_step(unsigned short dir){
-    if (dir == 1){
-        PORTDbits.RD2 = 1; //Si el botón dirección está presionado -> Girar a la izquierda
-    }
-    else {
-        PORTDbits.RD2 = 0; //Si el botón dirección no está presionado -> Girar a la derecha
-    }
+    else {PORTDbits.RD1 = 0;} //Se fuerza 0
     return;
 }
 void RTC_read(void){
@@ -203,6 +196,18 @@ void RTC_read(void){
     if (hrs != last_hrs){
         last_hrs = hrs;
         USART_send(hrs + 224); //Envio codificado de horas
+    }
+    if (min == 0 && p <= 8){
+           p++;
+           PORTDbits.RD6 = !PORTDbits.RD6; 
+           __delay_ms(10);
+    }
+    else if (min != 0){
+        PORTDbits.RD6 = 0; 
+        p = 0;
+    }
+    else{
+        PORTDbits.RD6 = 0; 
     }
     return;
 }
@@ -236,7 +241,9 @@ void setup(void){
     TRISDbits.TRISD1 = 0; //RD0 -> Output
     PORTDbits.RD1 = 0; // RD0 -> Clear
     TRISDbits.TRISD2 = 0; //RD1 -> Output
-    PORTDbits.RD1 = 0; // RD1 -> Clear
+    PORTDbits.RD2 = 0; // RD2 -> Clear
+    TRISDbits.TRISD6 = 0; //RD6 -> Output
+    PORTDbits.RD6 = 0; // RD6 -> Clear
     
     pwm_init(1); //CCP1 -> Init
     USART_set(9600); //Inicialización com. UART a BR 9600

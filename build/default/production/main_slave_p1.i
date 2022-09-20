@@ -2777,7 +2777,7 @@ void tmr0_init(uint8_t prescaler);
 void tmr0_reload(void);
 # 46 "main_slave_p1.c" 2
 # 57 "main_slave_p1.c"
-uint8_t min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 0, on = 0;
+uint8_t p = 0, min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 5;
 uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
 float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
 
@@ -2791,7 +2791,6 @@ void motor_dc(int temp);
 uint8_t bcd_dec(uint8_t no);
 void RTC_read(void);
 void pulse_step(unsigned short bt, unsigned short signal);
-void dir_step(unsigned short dir);
 
 
 
@@ -2811,18 +2810,19 @@ void __attribute__((picinterrupt(("")))) slave(void){
 
         if(!PORTBbits.RB2){
             dir = 1;
-        }
-        else if(PORTBbits.RB2){
-            dir = 0;
+            PORTDbits.RD2 = 1;
+
         }
 
         if(!PORTBbits.RB7){
-            on = 1;
-        }
-        else if(PORTBbits.RB7){
-            on = 0;
+            dir = 0;
+            PORTDbits.RD2 = 0;
         }
         INTCONbits.RBIF = 0;
+
+        if(PORTBbits.RB2 && PORTBbits.RB7){
+            dir = 5;
+        }
     }
     if(PIR1bits.ADIF){
         if(ADCON0bits.CHS == 0){
@@ -2845,11 +2845,11 @@ void __attribute__((picinterrupt(("")))) slave(void){
 void main(void) {
     setup();
     while(1){
-        pulse_step(on, pulso);
+        PORTDbits.RD2 = dir & 0x01;
+        pulse_step(dir, pulso);
         adc_ch_switch(1);
         motor_dc(TC);
         servo(switch_servo);
-        dir_step(dir);
         RTC_read();
     }
     return;
@@ -2895,18 +2895,10 @@ void pulse_step(unsigned short bt, unsigned short signal){
     if (bt == 1){
         PORTDbits.RD1 = signal;
     }
-    else{
-        PORTDbits.RD1 = 0;
+    else if(bt == 0){
+        PORTDbits.RD1 = signal;
     }
-    return;
-}
-void dir_step(unsigned short dir){
-    if (dir == 1){
-        PORTDbits.RD2 = 1;
-    }
-    else {
-        PORTDbits.RD2 = 0;
-    }
+    else {PORTDbits.RD1 = 0;}
     return;
 }
 void RTC_read(void){
@@ -2927,6 +2919,18 @@ void RTC_read(void){
     if (hrs != last_hrs){
         last_hrs = hrs;
         USART_send(hrs + 224);
+    }
+    if (min == 0 && p <= 8){
+           p++;
+           PORTDbits.RD6 = !PORTDbits.RD6;
+           _delay((unsigned long)((10)*(1000000/4000.0)));
+    }
+    else if (min != 0){
+        PORTDbits.RD6 = 0;
+        p = 0;
+    }
+    else{
+        PORTDbits.RD6 = 0;
     }
     return;
 }
@@ -2960,7 +2964,9 @@ void setup(void){
     TRISDbits.TRISD1 = 0;
     PORTDbits.RD1 = 0;
     TRISDbits.TRISD2 = 0;
-    PORTDbits.RD1 = 0;
+    PORTDbits.RD2 = 0;
+    TRISDbits.TRISD6 = 0;
+    PORTDbits.RD6 = 0;
 
     pwm_init(1);
     USART_set(9600);
