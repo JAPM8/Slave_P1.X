@@ -5,4 +5,5 @@ pwm.h  \
 USART.h  \
 adc.h  \
 I2C.h  \
-tmr0.h 
+tmr0.h  \
+tsl2561.h 

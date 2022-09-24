@@ -2776,9 +2776,18 @@ void tmr0_init(uint8_t prescaler);
 # 34 "./tmr0.h"
 void tmr0_reload(void);
 # 46 "main_slave_p1.c" 2
-# 57 "main_slave_p1.c"
-uint8_t p = 0, min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 5;
-uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
+
+# 1 "./tsl2561.h" 1
+# 11 "./tsl2561.h"
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.35\\pic\\include\\c90\\stdint.h" 1 3
+# 11 "./tsl2561.h" 2
+# 48 "./tsl2561.h"
+uint32_t calculateLux(uint16_t broadband, uint16_t ir);
+# 47 "main_slave_p1.c" 2
+# 58 "main_slave_p1.c"
+uint8_t p = 0, min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 5,
+        lowCH0 = 0, highCH0 = 0, lowCH1 = 0, highCH1 = 0, LUX = 8, last_LUX = 15;
+uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150, CH0 = 0, CH1 = 0;
 float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
 
 
@@ -2791,6 +2800,8 @@ void motor_dc(int temp);
 uint8_t bcd_dec(uint8_t no);
 void RTC_read(void);
 void pulse_step(unsigned short bt, unsigned short signal);
+void LUX_config(void);
+void LUX_read(void);
 
 
 
@@ -2818,12 +2829,12 @@ void __attribute__((picinterrupt(("")))) slave(void){
             dir = 0;
             PORTDbits.RD2 = 0;
         }
-        INTCONbits.RBIF = 0;
-
         if(PORTBbits.RB2 && PORTBbits.RB7){
             dir = 5;
         }
+        INTCONbits.RBIF = 0;
     }
+
     if(PIR1bits.ADIF){
         if(ADCON0bits.CHS == 0){
             TEMP_POT = map(adc_read(), 0, 650, -55, 125);
@@ -2831,7 +2842,7 @@ void __attribute__((picinterrupt(("")))) slave(void){
 
             R2 = R1 * ((float)(1023/TEMP_POT)-1);
             logR2 = log(R2);
-            TC = (uint8_t)(273.15 - (1.0 / (A + B * logR2 + C * logR2 * logR2 * logR2)));
+            TC = (uint8_t)(273.15 - (1 / (A + B * logR2 + C * logR2 * logR2 * logR2)));
         }
         PIR1bits.ADIF = 0;
     }
@@ -2844,6 +2855,7 @@ void __attribute__((picinterrupt(("")))) slave(void){
 
 void main(void) {
     setup();
+    LUX_config();
     while(1){
         PORTDbits.RD2 = dir & 0x01;
         pulse_step(dir, pulso);
@@ -2851,6 +2863,7 @@ void main(void) {
         motor_dc(TC);
         servo(switch_servo);
         RTC_read();
+        LUX_read();
     }
     return;
 }
@@ -2937,6 +2950,48 @@ void RTC_read(void){
 uint8_t bcd_dec(uint8_t no){
     return ((no >> 4) * 10 + (no & 0x0F));
 }
+void LUX_config(void){
+
+    I2C_Master_Start();
+    I2C_Master_Write(0x72);
+    I2C_Master_Write(0x80);
+    I2C_Master_Write(0x03);
+    I2C_Master_Stop();
+
+    I2C_Master_Start();
+    I2C_Master_Write(0x72);
+    I2C_Master_Write(0x81);
+    I2C_Master_Write(0x00);
+    I2C_Master_Stop();
+    return;
+}
+void LUX_read(void){
+
+    I2C_Master_Start();
+    I2C_Master_Write(0x72);
+    I2C_Master_Write(0x8C);
+    I2C_Master_RepeatedStart();
+    I2C_Master_Write(0x73);
+    lowCH0 = I2C_Master_Read(1);
+    highCH0 = I2C_Master_Read(1);
+    lowCH1 = I2C_Master_Read(1);
+    highCH1 = I2C_Master_Read(0);
+    I2C_Master_Stop();
+
+    CH0 = (highCH0 << 8) + lowCH0;
+    CH1 = (highCH1 << 8) + lowCH1;
+
+    LUX = (uint8_t)( calculateLux(CH0, CH1) * 1/15);
+
+    if (LUX != last_LUX){
+        last_LUX = LUX;
+        if (LUX >= 10)
+            USART_send(192 + 10);
+        else
+            USART_send(192 + (LUX & 15));
+    }
+    return;
+}
 
 
 
@@ -2949,6 +3004,9 @@ void setup(void){
     ANSELH = 0;
 
     TRISAbits.TRISA0 = 1;
+
+    TRISAbits.TRISA4 = 0;
+    PORTAbits.RA4 = 0;
 
     TRISBbits.TRISB0 = 0;
     PORTBbits.RB0 = 0;

@@ -1,0 +1,111 @@
+make -f nbproject/Makefile-defaultActiveCA.mk SUBPROJECTS= .clean-conf
+make[1]: Entering directory 'C:/Users/javyp/OneDrive/Documentos/UNIVERSIDAD/Lab_Digital/Proyecto_1/Slave_P1.X'
+rm -f  -r .ca/build/defaultActiveCA/production
+rm -f  -r .ca/dist/defaultActiveCA/production
+make[1]: Leaving directory 'C:/Users/javyp/OneDrive/Documentos/UNIVERSIDAD/Lab_Digital/Proyecto_1/Slave_P1.X'
+[32mCLEAN SUCCESSFUL (total time: 2s)[0m
+make -f nbproject/Makefile-defaultActiveCA.mk SUBPROJECTS= .build-conf
+make[1]: Entering directory 'C:/Users/javyp/OneDrive/Documentos/UNIVERSIDAD/Lab_Digital/Proyecto_1/Slave_P1.X'
+make  -f nbproject/Makefile-defaultActiveCA.mk .ca/dist/defaultActiveCA/production/Slave_P1.X.production.hex
+make[2]: Entering directory 'C:/Users/javyp/OneDrive/Documentos/UNIVERSIDAD/Lab_Digital/Proyecto_1/Slave_P1.X'
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -c   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_defaultActiveCA=defaultActiveCA  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits   -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o .ca/build/defaultActiveCA/production/main_slave_p1.p1 main_slave_p1.c 
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -c   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_defaultActiveCA=defaultActiveCA  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits   -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o .ca/build/defaultActiveCA/production/osc.p1 osc.c 
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -c   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_defaultActiveCA=defaultActiveCA  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits   -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o .ca/build/defaultActiveCA/production/USART.p1 USART.c 
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -c   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_defaultActiveCA=defaultActiveCA  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits   -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o .ca/build/defaultActiveCA/production/adc.p1 adc.c 
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -c   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_defaultActiveCA=defaultActiveCA  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits   -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o .ca/build/defaultActiveCA/production/pwm.p1 pwm.c 
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -c   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_defaultActiveCA=defaultActiveCA  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits   -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o .ca/build/defaultActiveCA/production/I2C.p1 I2C.c 
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -c   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_defaultActiveCA=defaultActiveCA  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits   -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o .ca/build/defaultActiveCA/production/tmr0.p1 tmr0.c 
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -c   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_defaultActiveCA=defaultActiveCA  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits   -std=c99 -gdwarf-3 -mstack=compiled:auto:auto     -o .ca/build/defaultActiveCA/production/tsl2561.p1 tsl2561.c 
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+adc.c:68:27: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned int') [-Wsign-conversion]
+    return ((ADRESH << 8) + ADRESL);// Regreso de ADC
+    ~~~~~~  ~~~~~~~~~~~~~~^~~~~~~~
+1 warning generated.
+USART.c:17:41: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned char' [-Wconversion]
+    SPBRG = (_XTAL_FREQ - baudrate * 4) / (baudrate * 4); //Se carga Baud rate
+          ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+main_slave_p1.c:110:24: warning: implicit conversion changes signedness: 'short' to 'uint16_t' (aka 'unsigned int') [-Wsign-conversion]
+            TEMP_POT = map(adc_read(), 0, 650, -55, 125);
+                     ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+main_slave_p1.c:114:21: warning: implicit conversion loses floating-point precision: 'double' to 'float' [-Wconversion]
+            logR2 = log(R2);
+                  ~ ^~~~~~~
+main_slave_p1.c:133:18: warning: implicit conversion turns floating-point number into integer: 'float' to 'int' [-Wfloat-conversion]
+        motor_dc(TC); //Se acciona motor DC en base a temperatura
+        ~~~~~~~~ ^~
+main_slave_p1.c:158:20: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned int') [-Wsign-conversion]
+        OLD_TEMP = temp;
+                 ~ ^~~~
+main_slave_p1.c:179:25: warning: implicit conversion loses integer precision: 'unsigned short' to 'unsigned char' [-Wconversion]
+        PORTDbits.RD1 = signal; //Si el bot<F3>n acci<F3>n est<E1> presionado -> Enviar se<F1>al 
+                      ~ ^~~~~~
+main_slave_p1.c:182:25: warning: implicit conversion loses integer precision: 'unsigned short' to 'unsigned char' [-Wconversion]
+        PORTDbits.RD1 = signal; //Si el bot<F3>n acci<F3>n est<E1> presionado -> Enviar se<F1>al 
+                      ~ ^~~~~~
+main_slave_p1.c:194:19: warning: implicit conversion loses integer precision: 'unsigned short' to 'uint8_t' (aka 'unsigned char') [-Wconversion]
+    min = bcd_dec(I2C_Master_Read(1)); //(Read + Acknowledge) Minutos -> BCD a DEC
+          ~~~~~~~ ^~~~~~~~~~~~~~~~~~
+main_slave_p1.c:195:19: warning: implicit conversion loses integer precision: 'unsigned short' to 'uint8_t' (aka 'unsigned char') [-Wconversion]
+    hrs = bcd_dec(I2C_Master_Read(0)); //(Read + No Acknowledge) Horas -> BCD a DEC
+          ~~~~~~~ ^~~~~~~~~~~~~~~~~~
+main_slave_p1.c:247:14: warning: implicit conversion loses integer precision: 'unsigned short' to 'uint8_t' (aka 'unsigned char') [-Wconversion]
+    lowCH0 = I2C_Master_Read(1);
+           ~ ^~~~~~~~~~~~~~~~~~
+main_slave_p1.c:248:15: warning: implicit conversion loses integer precision: 'unsigned short' to 'uint8_t' (aka 'unsigned char') [-Wconversion]
+    highCH0 = I2C_Master_Read(0);
+            ~ ^~~~~~~~~~~~~~~~~~
+main_slave_p1.c:256:14: warning: implicit conversion loses integer precision: 'unsigned short' to 'uint8_t' (aka 'unsigned char') [-Wconversion]
+    lowCH1 = I2C_Master_Read(1);
+           ~ ^~~~~~~~~~~~~~~~~~
+main_slave_p1.c:257:15: warning: implicit conversion loses integer precision: 'unsigned short' to 'uint8_t' (aka 'unsigned char') [-Wconversion]
+    highCH1 = I2C_Master_Read(0);
+            ~ ^~~~~~~~~~~~~~~~~~
+main_slave_p1.c:260:26: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned int') [-Wsign-conversion]
+    CH0 = (highCH0 << 8) + lowCH0; 
+        ~ ~~~~~~~~~~~~~~~^~~~~~~~
+main_slave_p1.c:261:26: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned int') [-Wsign-conversion]
+    CH1 = (highCH1 << 8) + lowCH1; 
+        ~ ~~~~~~~~~~~~~~~^~~~~~~~
+main_slave_p1.c:263:37: warning: implicit conversion loses integer precision: 'unsigned long' to 'uint8_t' (aka 'unsigned char') [-Wconversion]
+    LUX = ((calculateLux(CH0, CH1)) * (10/40000));
+        ~  ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+1 warning generated.
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+15 warnings generated.
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+tsl2561.c:37:14: warning: comparison of unsigned expression >= 0 is always true [-Wtautological-compare]
+  if ((ratio >= 0) && (ratio <= TSL2561_LUX_K1T)) {
+       ~~~~~ ^  ~
+I2C.c:18:32: warning: implicit conversion loses integer precision: 'unsigned long' to 'unsigned char' [-Wconversion]
+    SSPADD = (_XTAL_FREQ/(4*c))-1;
+           ~ ~~~~~~~~~~~~~~~~~~^~
+I2C.c:50:14: warning: implicit conversion loses integer precision: 'unsigned int' to 'unsigned char' [-Wconversion]
+    SSPBUF = d;             
+           ~ ^
+1 warning generated.
+2 warnings generated.
+"C:\Program Files\Microchip\xc8\v2.35\bin\xc8-cc.exe"  -mcpu=16F887 -Wl,-Map=.ca/dist/defaultActiveCA/production/Slave_P1.X.production.map  -DXPRJ_defaultActiveCA=defaultActiveCA  -Wl,--defsym=__MPLAB_BUILD=1   -mdfp="C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8"  -fno-short-double -fno-short-float -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-osccal -mno-resetbits -mno-save-resetbits -mno-download -mno-stackcall -mdefault-config-bits -std=c99 -gdwarf-3 -mstack=compiled:auto:auto      -Wl,--memorysummary,.ca/dist/defaultActiveCA/production/memoryfile.xml -o .ca/dist/defaultActiveCA/production/Slave_P1.X.production.elf  .ca/build/defaultActiveCA/production/main_slave_p1.p1 .ca/build/defaultActiveCA/production/osc.p1 .ca/build/defaultActiveCA/production/USART.p1 .ca/build/defaultActiveCA/production/adc.p1 .ca/build/defaultActiveCA/production/pwm.p1 .ca/build/defaultActiveCA/production/I2C.p1 .ca/build/defaultActiveCA/production/tmr0.p1 .ca/build/defaultActiveCA/production/tsl2561.p1     
+::: advisory: (2049) C99 compliant libraries are currently not available for baseline or mid-range devices, or for enhanced mid-range devices using a reentrant stack; using C90 libraries
+tsl2561.c:19:: warning: (750) constant operand to || or &&
+tsl2561.c:19:: warning: (765) degenerate unsigned comparison
+tsl2561.c:37:: warning: (765) degenerate unsigned comparison
+tmr0.c:57:: advisory: (1510) non-reentrant function "_tmr0_reload" appears in multiple call graphs and has been duplicated by the compiler
+C:\Program Files\Microchip\xc8\v2.35\pic\sources\c90\common\fltol.c:43:: advisory: (1510) non-reentrant function "___fltol" appears in multiple call graphs and has been duplicated by the compiler
+USART.c:33:: warning: (520) function "_USART_print" is never called
+adc.c:59:: warning: (520) function "_adc_start" is never called
+
+Memory Summary:
+    Program space        used  1D02h (  7426) of  2000h words   ( 90.6%)
+    Data space           used   112h (   274) of   170h bytes   ( 74.5%)
+    EEPROM space         used     0h (     0) of   100h bytes   (  0.0%)
+    Configuration bits   used     2h (     2) of     2h words   (100.0%)
+    ID Location space    used     4h (     4) of     4h bytes   (100.0%)
+
+make[2]: Leaving directory 'C:/Users/javyp/OneDrive/Documentos/UNIVERSIDAD/Lab_Digital/Proyecto_1/Slave_P1.X'
+make[1]: Leaving directory 'C:/Users/javyp/OneDrive/Documentos/UNIVERSIDAD/Lab_Digital/Proyecto_1/Slave_P1.X'
+[32mBUILD SUCCESSFUL (total time: 18s)[0m

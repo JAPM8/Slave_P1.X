@@ -44,6 +44,7 @@
 #include "adc.h"
 #include "I2C.h"
 #include "tmr0.h"
+#include "tsl2561.h"
 
 /*
  * Constantes
@@ -54,8 +55,9 @@
 /*
  * Variables
  */
-uint8_t p = 0, min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 5;
-uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150;
+uint8_t p = 0, min = 0, hrs = 0, last_min = 61, last_hrs = 30, pulso = 1, dir = 5,
+        lowCH0 = 0, highCH0 = 0, lowCH1 = 0, highCH1 = 0, LUX = 8, last_LUX = 15;
+uint16_t switch_servo = 0, last_mov = 5, TEMP_POT = 0, OLD_TEMP = 150, CH0 = 0, CH1 = 0;
 float R1 = 10000, logR2, R2, TC, A = 0.001129148, B = 0.000234125, C = 0.0000000876741;
 /*
  * Prototipos de Función
@@ -68,6 +70,8 @@ void motor_dc(int temp);
 uint8_t bcd_dec(uint8_t no);
 void RTC_read(void);
 void pulse_step(unsigned short bt, unsigned short signal);
+void LUX_config(void);
+void LUX_read(void);
 /*
  * Interrupciones
  */
@@ -95,12 +99,12 @@ void __interrupt() slave(void){
             dir = 0; // Se gira stepper a la izquierda  
             PORTDbits.RD2 = 0; //Si el botón está presionado -> Girar a la izquierda
         }
-        INTCONbits.RBIF = 0; // Flag Int. Portb -> Clear
-        
         if(PORTBbits.RB2 && PORTBbits.RB7){
             dir = 5; // Sin acción
         }
+        INTCONbits.RBIF = 0; // Flag Int. Portb -> Clear
     }
+    
     if(PIR1bits.ADIF){                      
         if(ADCON0bits.CHS == 0){ // Interrupción AN0
             TEMP_POT = map(adc_read(), 0, 650, -55, 125);
@@ -108,7 +112,7 @@ void __interrupt() slave(void){
             //Ecuación Stein-Hart psra conversión a temperatura de NTC
             R2 = R1 * ((float)(1023/TEMP_POT)-1);
             logR2 = log(R2);
-            TC = (uint8_t)(273.15 - (1.0 / (A + B * logR2 + C * logR2 * logR2 * logR2)));
+            TC = (uint8_t)(273.15 - (1 / (A + B * logR2 + C * logR2 * logR2 * logR2)));
         }
         PIR1bits.ADIF = 0;  // Flag Int. ADC -> Clear
     }
@@ -121,6 +125,7 @@ void __interrupt() slave(void){
 
 void main(void) {
     setup();
+    LUX_config();
     while(1){
         PORTDbits.RD2 = dir & 0x01; //Constantemente se actualiza dirección de stepper
         pulse_step(dir, pulso); //Se acciona Stepper en base a la dirección del botón apachado
@@ -128,6 +133,7 @@ void main(void) {
         motor_dc(TC); //Se acciona motor DC en base a temperatura
         servo(switch_servo); //Se acciona servomotor en base a movimiento
         RTC_read(); //Se lee mediante I2C RTC
+        LUX_read(); //Se lee mediante I2C TSL2561
     }
     return;
 }
@@ -147,10 +153,10 @@ void motor_dc(int temp){
     else{
         PORTBbits.RB0 = 0; // Se detiene ventilador
     }
-    
+
     if (temp != OLD_TEMP){
         OLD_TEMP = temp;
-        USART_send(160 + (temp & 31)); //Envio codificado de sensor de temperatura (se limita hasta 31 °C)        
+        USART_send(160 + (temp & 31)); //Envio codificado de sensor de temperatura (se limita hasta 31 °C)
     }
     return;
 }
@@ -214,6 +220,48 @@ void RTC_read(void){
 uint8_t bcd_dec(uint8_t no){
     return ((no >> 4) * 10 + (no & 0x0F));
 }
+void LUX_config(void){
+    //Configuración
+    I2C_Master_Start(); //Start condition
+    I2C_Master_Write(0x72); // TSL2561 ADDRESS (0x39) + WRITE
+    I2C_Master_Write(0x80); // Se selecciona el registro de command y se direcciona al registro 0 (Control)
+    I2C_Master_Write(0x03); //Power Up TSL2561
+    I2C_Master_Stop(); //Stop condition
+    
+    I2C_Master_Start(); //Start condition
+    I2C_Master_Write(0x72); // TSL2561 ADDRESS + WRITE
+    I2C_Master_Write(0x81); // Se selecciona el registro de command y se direcciona al registro 1 (Timing Register)
+    I2C_Master_Write(0x00); // Set -> Gain (1X) & Integration Time 13.7 ms
+    I2C_Master_Stop(); //Stop condition    
+    return;
+}
+void LUX_read(void){  
+    //Read
+    I2C_Master_Start(); //Start condition
+    I2C_Master_Write(0x72); // TSL2561 ADDRESS (0x39) + WRITE
+    I2C_Master_Write(0x8C); // Se selecciona el registro de command y se direcciona al registro 0xC (ADC CH0 low Data)
+    I2C_Master_RepeatedStart(); //Reseteo I2C
+    I2C_Master_Write(0x73); // TSL2561 ADDRESS (0x39) + READ (1)
+    lowCH0 = I2C_Master_Read(1);
+    highCH0 = I2C_Master_Read(1);
+    lowCH1 = I2C_Master_Read(1);
+    highCH1 = I2C_Master_Read(0);
+    I2C_Master_Stop(); //Stop condition
+    
+    CH0 = (highCH0 << 8) + lowCH0; 
+    CH1 = (highCH1 << 8) + lowCH1; 
+    
+    LUX = (uint8_t)( calculateLux(CH0, CH1) * 1/15);
+    
+    if (LUX != last_LUX){
+        last_LUX = LUX;
+        if (LUX >= 10)
+            USART_send(192 + 10); //Envio codificado de nivel de luz
+        else
+            USART_send(192 + (LUX & 15)); //Envio codificado de nivel de luz
+    }
+    return;
+}
 
 /*
  * Configuraciones
@@ -226,7 +274,10 @@ void setup(void){
     ANSELH = 0;
     
     TRISAbits.TRISA0 = 1; //RA0 -> Input 
-
+    
+    TRISAbits.TRISA4 = 0;
+    PORTAbits.RA4 = 0;
+    
     TRISBbits.TRISB0 = 0; //RB0 -> Output
     PORTBbits.RB0 = 0;  //RB0 -> Clear
     TRISBbits.TRISB1 = 1; //RB1 -> Input   
